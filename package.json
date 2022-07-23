@@ -1,0 +1,22 @@
+{
+  "name": "sangpage",
+  "version": "0.0.1",
+  "description": "my page",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awardfact/sangpage.git"
+  },
+  "keywords": [
+    "page"
+  ],
+  "author": "SangJin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awardfact/sangpage/issues"
+  },
+  "homepage": "https://github.com/awardfact/sangpage#readme"
+}
