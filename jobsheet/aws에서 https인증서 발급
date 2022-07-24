@@ -1,0 +1,23 @@
+https://kirk0201.github.io/server-deploy2 해당 페이지 참고해서 만듬
+
+/etc/nginx/sites-available/default 파일을 vi로
+server_name 수정하고 
+location 나머지ㅣ 코드 주석 + proxy_press http://localhost:4000;코드를 추가해준다 
+
+certbot 설치 
+이거 설치하기전에 snap을 설치해야함 
+
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bub/certbot
+sudo certbot --nginx
+
+하고 나오는 선택지에서
+1.이메일 입력
+2. 약관동이 yn입력
+3. 이메일 수신 yn입력
+4. 항목 선택 
+
+이렇게 하면 인증서가 발급된다 
+
+Certificate is saved at: /etc/letsencrypt/live/sangpage.com/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/sangpage.com/privkey.pem
