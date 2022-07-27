@@ -3,7 +3,6 @@
   "name": "sangpage",
   "version": "0.0.1",
   "description": "my page",
-  "main": "index.js",
   "main": "sangpage.js",
 
   "scripts": {
@@ -18,13 +17,11 @@
     "page"
     "sangpage"
   ],
-  "author": "SangJin",
   "author": "sangjin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/awardfact/sangpage/issues"
   },
-  "homepage": "https://github.com/awardfact/sangpage#readme"
   "homepage": "https://github.com/awardfact/sangpage#readme",
   "dependencies": {
     "express": "^4.18.1",
