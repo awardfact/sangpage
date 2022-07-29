@@ -1,0 +1,7 @@
+
+certbot ,nginx를 이용한 https인증서 발급
+
+/etc/letsencrypt/live/sangpage.com/fullchain.pem
+/etc/letsencrypt/live/sangpage.com/privkey.pem
+
+만료일 22 10 22

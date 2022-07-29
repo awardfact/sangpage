@@ -1,0 +1,5 @@
+certbot으로 https 연결이 안돼서 openssl을 통해 https연결 시도
+
+둘다 안돼서 aws 로드밸런서라는 기능을 이용
+
+로드밸런서 등록 

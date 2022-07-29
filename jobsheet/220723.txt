@@ -1,0 +1,5 @@
+vscode로 aws서버 연결하고 git repository 만들고 aws서버와 git연동
+
+익스프레스 노데몬 설치
+
+https를위한 스냅, certbot ,nginx 설치
