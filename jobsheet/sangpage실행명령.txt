@@ -1,0 +1,76 @@
+실행명령
+
+
+도커설치 
+sudo apt update 
+sudo apt install apt-transport https
+sudo apt install ca-certificates
+sudo apt install curl 
+sudo apt install software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt update 
+apt-cache policy docker-ce
+sudo apt install docker-ce
+
+
+sudo systemctl status docker  - 이거는 도커가 잘 실행됐는지 확인용 
+
+
+sudo vi Dockerfile  도커파일 만드는 코드실행
+
+
+
+FROM ubuntu:22.04
+
+#Avoiding user interaction with tzdata
+ENV DEVIAN_FRONTED=noninteractive
+
+MAINTAINER sangJin<tkdwls7152@naver.com>
+
+WORKDIR /sangpage
+// apt-get앞에 sudo 붙이면 오류떠서 sudo삭제 
+RUN apt-get update // 업데이트 안하면 뒤 코드에서 오류떠서 추가
+RUN apt-get update && apt-get install -y  // y입력해줘야 해서 -y추가 
+RUN apt install git -y
+ADD https://github.com/awardfact/sangpage/raw/main/package.json 
+ADD https://github.com/awardfact/sangpage/raw/main/sangpage.js
+RUN apt install nodejs -y
+RUN apt install npm -y
+RUN npm install
+
+CMD ["npm", "start"]
+
+EXPOSE 8080
+
+
+도커파일 작성
+
+sudo chmod 666 /var/run/docker.sock  도커파일 빌드하면 퍼미션 디나이 떠서 권한 설정
+
+docker build -t sangpage_dk:1.0 .   // 도커파일 빌드 
+
+aws 리부팅해서 도커 컨테이너가 꺼졌으면 docker restart 컨테이너아이디 입력하면된다 
+
+
+
+
+
+
+
+
+git config --global user.name "깃이름"
+git config --global user.email "이메일이름"
+
+git clone https://github.com/awardfact/sangpage
+
+npm install    //ec2서버에 세팅해주고 도커 실행 
+
+docker run  -p 8080:8080 -v /home/ubuntu/sangpage:/sangpage sangpage_dk:1.0 도커 빌드  근데 마운트 하는건데 현재 폴더가 없어서 실행이 안되는거 같아서 sangpage만들어줌
+
+데이터베이스는 aws rds를 이용
+
+
+
+젠킨스 설치 
+docker pull jenkins/jenkins:lts
