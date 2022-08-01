@@ -74,3 +74,8 @@ docker run  -p 8080:8080 -v /home/ubuntu/sangpage:/sangpage sangpage_dk:1.0 도�
 
 젠킨스 설치 
 docker pull jenkins/jenkins:lts
+
+
+
+docker run -d -p 8444:8080 -v /home/jenkins:var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -u root jenkins/jenkins:lts
+젠킨스 실행 
