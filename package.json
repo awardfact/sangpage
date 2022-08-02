@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "my page",
   "main": "sangpage.js",
-
   "scripts": {
-    "start" : "nodemon snagpage",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "cd front && yarn start",
+    "server": "nodemon sangpage",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,13 @@
   },
   "homepage": "https://github.com/awardfact/sangpage#readme",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "express": "^4.18.1",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.19"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "rimraf": "^3.0.2"
   }
 }

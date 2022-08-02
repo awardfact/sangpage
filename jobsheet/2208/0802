@@ -1,0 +1,9 @@
+유튜브 보면서 react랑 node 공부 
+
+gitignore에 
+#database
+/database.json 추가해서 데이터베이스 정보를 깃에 안들어가게 수정 
+
+node서버와 rds로 만든 데이터베이스 연결 
+
+database.json 파일을 만들고 거기에 데이터베이스 정보 입력 
