@@ -8,6 +8,12 @@ const app = express();
 const fs = require('fs');
 const port = process.env.PORT || 8080;
 
+
+//multer선언 이미지 업로드하면 이름을 겹치지 않게 해준다 
+const multer = require('multer');
+const upload = multer({dest : './upload'});
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
@@ -34,11 +40,42 @@ http.createServer(app).listen(port, ()=>{
 
 app.get('/api/customers' , (req,res) =>{
     connection.query(
-      "SELECT * from CUSTOMER" , (err,rows, fields) =>{
+      "SELECT * from CUSTOMER where isDeleted = 0" , (err,rows, fields) =>{
         res.send(rows);
       });
 });
 
+//image에 접근하ㅏ면 upload와 매핑이된다 
+app.use('/image', express.static('./upload'));
+
+
+app.post('/api/customers' , upload.single('image'), (req,res) =>{
+ 
+  let sql = "INSERT INTO CUSTOMER VALUES (null , ? , ? , ? , ? , ? , 0 , now() ) ";
+
+  let image = '/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  let params = [image, name, birthday , gender , job];
+  console.log(params);
+  console.log(sql);
+  connection.query(sql, params, (err,row,fields)=>{
+    res.send(row);
+  });
+
+});
+
+app.delete('/api/customers/:id' , (req,res) =>{
+  let sql = "UPDATE CUSTOMER SET isDeleted = 1 where id = ?";
+  let params = [req.params.id];
+
+    connection.query(sql, params, (err,rows,fields) =>{
+    res.send(rows);
+  });
+
+});
 
 
 app.get('/' , (req,res) =>{
