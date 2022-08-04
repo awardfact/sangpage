@@ -1,0 +1,26 @@
+리액트 시작하면 주소를 localhost:3000말고 새로 만든 도메인으로 들어가게 하려고 구글링 엉청 했는데 안됐었는데
+PORT=8000
+HOST=ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com
+여기에서 
+DANGEROUSLY_DISABLE_HOST_CHECK=true
+이걸 추가하니까 정상적으로 동작함
+
+근데 등록한 도메인으로 들어가면 
+bootstrap:27 Uncaught DOMException: Failed to construct 'WebSocket': An insecure WebSocket connection may not be initiated from a page loaded over HTTPS.
+이런 오류뜨면서 화면에 아무것도 안뜸
+
+
+index.html 
+<head>사이에 
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 이거 넣으니까 바로 해결함 
+
+
+
+헤더랑 푸터파일 만들고 헤더 작업 시작
+
+구글 폰트에서 폰트 다운받아서 폰트 적용 
+
+
+푸터도 간단하게 만듬
+
+회원 디비 테이블 생성 

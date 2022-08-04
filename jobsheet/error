@@ -1,0 +1,17 @@
+mixed_content 에러 
+index.html 
+<head>사이에 
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 이거 넣으니까 바로 해결함 
+
+
+A <Route> is only ever to be used as the child of <Routes> element,
+Route가 여러개면 Routes로 감싸줘야한다 
+
+
+Uncaught Error: [Home] is not a <Route> component. 에러
+Routes자식은 Route만 가능
+
+<Routes>
+<Route exact path="/"  element={<Home/>}   ></Route>
+<Routes>
+이런식으로 Route위에 Routes로 감싸주고 Route의 내용은 element로 넣어줘야 한다  
