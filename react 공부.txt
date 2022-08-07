@@ -417,3 +417,135 @@ state를 변경할 떄는
 
 
 리액트에서 바로 헤더를 만들때 앱바를 사용한다 
+
+
+
+라이프사이클 
+
+클래스형 
+
+클래스 컴포넌트 라이프사이클
+    1.constructor  - 컴포넌트를 새로 만들 때마다 호출되는 클래스 생성자 메서드
+    2.getDerivedStateFromProps - props에 있는 값을 state에 넣을 떄 사용하는 메서드
+    3. render - UI를 렌더링하는 메서드
+    4. componentDidMount - 컴포넌트가 웹 브라우저 상 나타난 후 호출 메서드 
+
+컴포넌트는 다음과 같은 4가지 경우에 업데이트 한다
+    1.props가 바뀔 때
+    2. state가 바뀔 때
+    3. 부모 컴포넌트가 리렌더링될 때 
+    4. this.forceUpdate로 강제로 렌더링을 트리거할 때 
+
+업데이트가 될 때는 라이플사이클이 다음과 같다
+    1. getDerivedStateFromProps  - 마운트 과정에서도 호출되며 업데이트가 시작하기 전에도 호출된다 props의 변화에 따라 state값에도 변화를 주고 싶을 떄 사용
+    2. shouldComponentUpdate   -  컴포넌트가 리렌더링을 해야할지 말아야할지를 결정하는 메서드 true또는 false를 반환하며 ture면 렌더를 실행한다 만약 특정 함수에서
+    this.forceUpdate()함수를 호출하면 바로 render함수를 호춣한다 
+    2에서 true반환시 3으로 false면 작업 취소 
+    3. render  - 컴포넌트를 리렌더링
+    4. getSnapshotBeforeUpdate  - 컴포넌트 변화를 DOM에 반영하기 직전에 호출 
+    5. componentDidUpdate  - 컴포넌트의 업데이트 작업이 끝난 후 호출 
+
+
+언마운트 - 마운트의 반대 과정이며 컴포넌트를 DOM에서 제거하는 것을 말한다
+
+1. componentWillMount  - 컴포넌트가 웹 브라우저상에서 사라지기 전에 호출하는 메서드 
+
+
+
+render()함수 
+    컴포넌트 모양새를 정의하는 함수 아무것도 보여주고 싶지 않다면 null값이나 false값을 반환
+    이 메서드 안에서 이벤트 설정이 아닌 곳에서는 setState를 사용하면 안되며 브라우저의 DOM에 접근해서도 안된다 
+
+constructor 메서드
+    컴포넌트 생성자 메서드로 컴포넌트를 만들 때 처음 실행된다 초기 state를 설정할 수 있다
+
+getDerivedStateFromProps 메서드
+    라이프사이클 메서드이며 props로 받아온 값을 state에 동기화시키는 용도로 사용 
+
+
+componentDidMount 
+    컴포넌트를 만들고 첫 렌더링을 마친 후 실행한다 이 안에서 다른 자바스크립트 라이브러리 또는 프레임워크의  함수를 호출하거나 이벤트 등록
+    비동기 작업을 처리하면 된다 
+
+shouldComonentUpdate 
+    props 또는 state를 변경했을 때 리렌더링을 시작할지 여부를 지정 
+
+
+
+
+
+함수형 
+
+
+<useSate> 
+    함수 컴포넌트에서도 가변적인 상태를 지닐 수 있게 해준다 함수 컴포넌트에서 상태를 관리해야 한다면 이 Hook을 사용한다 
+    하나의 useState는 하나의 상태 값만 관리하는데 관리해야할 상태가 여러개면 useState를 여러 번 사용하거나 객체를 이용한다 
+</useState>
+
+
+<useEffect> 
+    리액트 컴포넌트가 리렌더링 될 때마다 특정 작업을 수행하도록 설정할 수 있는 Hook이다 클래스형 컴포넌트의 componentDidMount, componentDidUpdate가 합쳐진 형태 
+    ex) UseFeect(() => {console.log(렌더링)} )}
+    useEffect가 화면에 처음 렌더링 될 때만 실행하고 업데이트 될때는 실행하지 않으려면 함수의 두 번째 파라미터로 비어있는 배열을 넣어주면 된다
+    ex) useEffect(()=>{ console.log('렌더링') } , []);
+    특정 값이 업데이트 될 때만 실행하고 싶으면 useEffect의 두 번째 파라미터로 전달되는 배열 안에 검사하고 싶은 값을 넣어주면 된다 
+
+    <뒷정리하기 >
+        컴포넌트가 언마운트 되기 전이나 업데이트되기 직전에 어떠한 작업을 수행하고 싶다면 useEffect에서 뒷정리(cleanup)함수를 반환해주어야한다
+        ex) useEffect( () => { console.log(Effect) return () => { console.log(cleanup)  }  }, [name] );
+        언마운트 될때만 뒷정리 함수를 호출하고 싶다면 useEffect함수의 두 번째 파라미터에 비어있는 배열을 넣으면 된다 
+                ex) useEffect( () => { console.log(Effect) return () => { console.log(unmount)  }  }, [] );
+    </뒷정리하기>
+
+</useEffect>
+
+
+
+<useReeducer>
+    useReducer는 useState보다 더 다양한 컴포넌트 상황에 따라 다양한 상태를 다른 값으로 업데이트 해주고 싶을 때 사용하는 Hook이다 
+    리듀서는 현재 상태 그리고 업데이트를 위해 필요한 정보를 담은 앤션 값을 전달받아 새로운 상태를 반환하는 함수이다 리듀서 함수에 새로운 상태를
+    만들 때는 불변성을 지켜주어야 한다 액션 값은 주로 다음과 같이 되어있다
+    {type : 'INCREMENT'} 
+    액션 객체는 반드시 type을 지니고 있을 필요는 없다 객체가 아니라 문자열이여도 된다
+    사용은 다음과 같이 한다
+    import {useReducer} from 'react'
+    const [satae, dispatch]  = useReducer(renducer, {value : 0});
+    function reducer(state, action) { switch(action.type){ case "INCREMENT" : return {value : state.value + 1}; case 'DECREMENT' return {value : state.value -1 }} }
+    <button onClick={()=> dispatch({type : "INCREMENT"} )}>+1</button>
+    useReducer의 첫 번째 파라미터에는 리듀서 함수를 넣고  두번째 파라미터에는 리듀서의 기본 값을 넣어준다 여기서 state는 현재 가리키고 있는 상태이고
+    dispatch는 액션을 발생시키는 함수이다  dispatch(action)과 같은 형태로 함수를 호출하는 형태이다 
+
+    리듀서를 사용하여 인풋 상태 관리 예제
+    ex) function reducer(state, action) { return { ...state, [action.name] : action.value } }
+    const [state, dispatch] = useReducer(reducer, { name : '' , nickname : ''}); const {name, nickname } = state; const onChange = e => {dispatch(e.target)};
+    <input name="name" vlaue={name} onChange={onChange} />
+    useReducer의 액션은 어떤 값도 사용이 가능하다 
+</useReeducer>
+
+
+<useMemo>
+    useMemo를 사용하면 함수 컴포넌트 내부에서 발생하는 연산을 최적화할 수 있다 사용은 다음과 같이 한다 
+    ex) import {useMemo} from 'react'  const getAverage = numbers => {const sum = numbers.reduce((a,b)=> a + b); return sum/numbers.length  }
+    const avg = useMemo(() => getAverage(list), [list]);  //List는 숫자가 들어가는 배열 
+    이렇게 하면 List배열의 내용이 바뀔 때만 getAverage함수가 호출된다 
+ 
+</useMemo>
+
+
+<useCallback>
+    useCallback은 useMemo와 비슷한 함수이다 주로 렌더링 성능 최적화하는 상황에서 사용한다  이 훅을 사용하면 만들어놨던 함수를 재사용할 수 있다
+    useCallback의 첫 번쨰 파라미터에는 생성하고 싶은 함수를 두고 두 번째 파라미터에는 배열을 넣으면 된다     
+    ex) const onChange = useCallback(e => {setNumber(e.target.value) } , []);
+    이렇게 하면 컴포넌트가 처음 렌더링 될때만 함수가 생성된다 함수 내부에서 상태 값에 의존해야 하는 경우에는 두 번째 파라미터에 값을 포함시켜주면된다
+
+
+</useCallback>
+
+
+
+<useRef>
+    useRef Hook은 함수 컴포넌트에서 ref를 쉽게 사용할 수 있도록 해준다 
+    ex) import {useRef } from 'react'; const inputEl = useRef(null);  const onInsert = useCallback(()=>{ 
+        const nextList = list.concat(parseInt(number)); setList(nextList); setNumber(''); inputEl.current.focus();)
+        <input ref={inputEl}
+</useRef>

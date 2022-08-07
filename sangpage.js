@@ -2,7 +2,8 @@ const express = require('express');
 const https = require('https');
 const http = require('http');
 const bodyParser = require('body-parser');
-
+const morgan = require('morgan');
+const session = require('express-session');
 
 const app = express();
 const fs = require('fs');
@@ -22,28 +23,46 @@ const data = fs.readFileSync('./database.json');
 const conf = JSON.parse(data);
 const mysql = require('mysql');
 
-//시퀄라이즈 
+
+//시퀄라이즈
+
 const { sequelize } = require('./models');
 
 
 //라우트 
-const indexRouter = require('./routes');
-const usersRouter = require('./routes/users');
-const commentsRouter = require('./routes/comments');
+const router = express.Router();
+const joinRouter = require("./router/member/Join");
+const LoginRouter = require("./router/member/Login");
+const CommonRouter = require("./router/Common");
+
+app.use(morgan('dev'));
 
 
-app.set('view engine', 'html');
-nunjucks.configure('views', {
-  express: app,
-  watch: true,
-});
+
+//세션설정
+app.use(session({
+  httpOnly: true,	
+  secure: true,	
+  secret: 'secret123',	
+  resave: false,	
+  saveUninitialized: true,	
+  cookie: {	
+    httpOnly: true,
+    Secure: true
+  }
+}));
+
+
+
 sequelize.sync({ force: false })
   .then(() => {
-    console.log('데이터베이스 연결 성공');
+
   })
   .catch((err) => {
     console.error(err);
   });
+
+
 
   
 //데이터베이스 연결 
@@ -56,21 +75,26 @@ const connection = mysql.createConnection({
 });
 
 
+//라우터 연결 
+app.use("/member/join", joinRouter);
+app.use("/member/login", LoginRouter);
+app.use("/common", CommonRouter);
+
+
 http.createServer(app).listen(port, ()=>{
     console.log(`listening on port ${port}`);
 });
 
 //app.set('port' , process.env.PORT || 4000);
 
-app.get('/api/customers' , (req,res) =>{
+app.get('/member/customers' , (req,res) =>{
     connection.query(
       "SELECT * from CUSTOMER where isDeleted = 0" , (err,rows, fields) =>{
         res.send(rows);
       });
 });
 
-//image에 접근하ㅏ면 upload와 매핑이된다 
-app.use('/image', express.static('./upload'));
+
 
 
 app.post('/api/customers' , upload.single('image'), (req,res) =>{
@@ -83,8 +107,7 @@ app.post('/api/customers' , upload.single('image'), (req,res) =>{
   let gender = req.body.gender;
   let job = req.body.job;
   let params = [image, name, birthday , gender , job];
-  console.log(params);
-  console.log(sql);
+
   connection.query(sql, params, (err,row,fields)=>{
     res.send(row);
   });

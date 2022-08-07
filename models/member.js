@@ -1,13 +1,20 @@
 const { TurnedIn } = require('@material-ui/icons');
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class Member extends Sequelize.Model {
     static init(sequelize) {
       return super.init({
         memNo : {
             type : Sequelize.INTEGER.UNSIGNED,
             allowNull : false,
             unique : true,
+            autoIncrement : true,
+            primaryKey: true,
+        },
+        memId : {
+          type: Sequelize.STRING(50),
+          allowNull : false,
+          unique : true,
         },
         name: {
           type: Sequelize.STRING(50),
@@ -31,27 +38,51 @@ module.exports = class User extends Sequelize.Model {
           allowNull: true,
         },
         isMemberType: {
-            type: Sequelize.STRING(200),
+          type: Sequelize.ENUM('page', 'kakao'),
             allowNull: true,
           },
-        is: {
+        gender: {
+          type: Sequelize.ENUM('male', 'female'),
+            allowNull: true,
+        },
+        birthday: {
+          type: Sequelize.DATE,
+          allowNull: false,
+   
+        },
+        grade: {
+          type: Sequelize.ENUM('준회원', '정회원' , '운영자'),
+          allowNull: false,
+   
+        },
+        isDelete: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true,
+
+        },
+        createdAt: {
           type: Sequelize.DATE,
           allowNull: false,
           defaultValue: Sequelize.NOW,
         },
       }, {
         sequelize,
-        timestamps: false,
+        timestamps: true,
         underscored: false,
-        modelName: 'User',
-        tableName: 'users',
-        paranoid: false,
+        modelName: 'Member',
+        tableName: 'member',
+        paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
       });
     }
   
     static associate(db) {
-      db.User.hasMany(db.Comment, { foreignKey: 'commenter', sourceKey: 'id' });
+     
     }
   };

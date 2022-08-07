@@ -5,6 +5,7 @@
 
 
 #database
+/config
 /database.json
 
 # dependencies
