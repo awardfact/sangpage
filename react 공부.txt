@@ -549,3 +549,19 @@ shouldComonentUpdate
         const nextList = list.concat(parseInt(number)); setList(nextList); setNumber(''); inputEl.current.focus();)
         <input ref={inputEl}
 </useRef>
+
+
+<link 바뀔때>
+    link를 이용해서 url을 바꿀때 이벤트를 할때는 
+    import { useNavigate   } from 'react-router-dom';
+    const history = useNavigate();
+    useEffect( () => { 
+    console.log('insert');
+    setMemInfo(commonRun());
+
+    console.log(setMemInfo);
+
+      }, [history]);
+
+    이런식으로 history가 바뀔때 useEffect를 해준다 
+</link 바뀔때>

@@ -14,9 +14,27 @@ router.get("/", async  (req, res) => {
 
 
 
+    if(req.session.sangpageMemNo){
 
-    console.log(req.session.sangpageMemNo);
-    res.send('' + req.session.sangpageMemNo);
+        const users = await Member.findOne({
+            attributes : [
+                'memNo',
+                'memId',
+                'name',
+                'isAdmin',
+                'grade',
+                'gender',
+                'cellPhone',
+                'isMemberType',
+                'birthday'
+            ],
+            where: {
+                memNo: req.session.sangpageMemNo
+            }
+        });
+        res.send(users);
+    
+    }
 
 
 });

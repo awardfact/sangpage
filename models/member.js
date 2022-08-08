@@ -46,7 +46,7 @@ module.exports = class Member extends Sequelize.Model {
             allowNull: true,
         },
         birthday: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING(30),
           allowNull: false,
    
         },

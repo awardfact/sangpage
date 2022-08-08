@@ -83,3 +83,8 @@ docker run -d -p 8444:8080 -v /home/jenkins:var/jenkins_home -v /var/run/docker.
 젠킨스는 cpu터져서 포기
 
 
+
+
+
+pm2 start yarn -- dev
+이걸로 실행하면 꺼지지 않고 유지된다    

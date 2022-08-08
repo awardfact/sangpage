@@ -33,6 +33,8 @@ const { sequelize } = require('./models');
 const router = express.Router();
 const joinRouter = require("./router/member/Join");
 const LoginRouter = require("./router/member/Login");
+const KakaoLoginRouter = require("./router/member/KakaoLogin");
+const LogoutRouter = require("./router/member/Logout");
 const CommonRouter = require("./router/Common");
 
 app.use(morgan('dev'));
@@ -44,7 +46,7 @@ app.use(session({
   httpOnly: true,	
   secure: true,	
   secret: 'secret123',	
-  resave: false,	
+  resave: true,	
   saveUninitialized: true,	
   cookie: {	
     httpOnly: true,
@@ -78,6 +80,8 @@ const connection = mysql.createConnection({
 //라우터 연결 
 app.use("/member/join", joinRouter);
 app.use("/member/login", LoginRouter);
+app.use("/member/kakao_login", KakaoLoginRouter);
+app.use("/member/logout", LogoutRouter);
 app.use("/common", CommonRouter);
 
 

@@ -9,7 +9,10 @@ const session = require('express-session');
 
 
 
-
+/*
+페이지 로그인을 했을때 실행하는 페이지
+받은 아이디로 회원 검색 후 패스워드가 일치한지 체크해서 일치하면 로그인을 실행한다 
+*/
 router.post("/", async  (req, res) => {
 
     const loginType = req.body.data.loginType;
@@ -17,22 +20,31 @@ router.post("/", async  (req, res) => {
     const encryptedPassowrd = bcrypt.hashSync(password, 10)
     const users = await Member.findOne({
         where: {
-            memId: req.body.data.id
+            memId: req.body.data.id,
+            isDelete : 0,
+            isMemberType : 'page'
         }
     });
 
-    const same = bcrypt.compareSync(password, users.password);
 
+    if(users){
+        const same = bcrypt.compareSync(password, users.password);
+        if(same){
 
-    if(same){
+            sess = req.session;
+            sess.sangpageMemNo = users.memNo;
+    
+        }
+    
+    
+        res.send(same);
 
-        sess = req.session;
-        sess.sangpageMemNo = users.memNo;
-
+    }else{
+        res.send(false);
     }
 
 
-    res.send(same);
+
 
 
 });
