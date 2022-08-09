@@ -22,6 +22,7 @@ router.get("/", async  (req, res) => {
                 'memId',
                 'name',
                 'isAdmin',
+                'email',
                 'grade',
                 'gender',
                 'cellPhone',

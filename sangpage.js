@@ -31,11 +31,15 @@ const { sequelize } = require('./models');
 
 //라우트 
 const router = express.Router();
-const joinRouter = require("./router/member/Join");
-const LoginRouter = require("./router/member/Login");
-const KakaoLoginRouter = require("./router/member/KakaoLogin");
-const LogoutRouter = require("./router/member/Logout");
-const CommonRouter = require("./router/Common");
+// const joinRouter = require("./router/member/Join");
+// const LoginRouter = require("./router/member/Login");
+// const KakaoLoginRouter = require("./router/member/KakaoLogin");
+// const LogoutRouter = require("./router/member/Logout");
+// const MemberUpdate = require("./router/member/MemberUpdate");
+// const CommonRouter = require("./router/Common");
+
+const indexRouter = require("./router/indexRouter");
+
 
 app.use(morgan('dev'));
 
@@ -78,11 +82,13 @@ const connection = mysql.createConnection({
 
 
 //라우터 연결 
-app.use("/member/join", joinRouter);
-app.use("/member/login", LoginRouter);
-app.use("/member/kakao_login", KakaoLoginRouter);
-app.use("/member/logout", LogoutRouter);
-app.use("/common", CommonRouter);
+// app.use("/member/join", joinRouter);
+// app.use("/member/login", LoginRouter);
+// app.use("/member/kakao_login", KakaoLoginRouter);
+// app.use("/member/logout", LogoutRouter);
+// app.use("/member/member_update", MemberUpdate);
+// app.use("/common", CommonRouter);
+app.use("/", indexRouter);
 
 
 http.createServer(app).listen(port, ()=>{
