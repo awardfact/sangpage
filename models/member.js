@@ -83,6 +83,6 @@ module.exports = class Member extends Sequelize.Model {
     }
   
     static associate(db) {
-     
+      db.Member.hasMany(db.Board, { foreignKey: 'memNo', targetKey: 'memNo'  , onDelete : 'CASCADE'   });
     }
   };

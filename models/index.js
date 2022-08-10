@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 
 
 const Member = require('./member');
+const Board = require('./board');
+const Memo = require('./memo');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -17,12 +19,16 @@ db.Sequelize = Sequelize;
 
 
 db.Member = Member;
-
+db.Board = Board;
+db.Memo = Memo;
 
 Member.init(sequelize);
-
+Board.init(sequelize);
+Memo.init(sequelize);
 
 Member.associate(db);
+Board.associate(db);
+Memo.associate(db);
 
 
 module.exports = db;

@@ -28,3 +28,14 @@ let idRegExr =  new RegExp("^[a-zA-z0-9]{5,15}$"); 이런식으로 정규식을 
 
     
 </await>
+
+
+<MulterError: Unexpected field)>
+    서버에서 파일 받아서 쓰려고 하는데 계속 저 에러가 뜸 
+    state이름을  content로 보냈고 해당 state안에 file이 있어서 content.file이름을 single(이름)으로 넣어야함 
+</MulterError: Unexpected field>
+
+
+<SequelizeForeignKeyConstraintError>
+    외래키는 null이나 있는 값을 넣어야하는데 0을 넣고 있었음 
+</SequelizeForeignKeyConstraintError>

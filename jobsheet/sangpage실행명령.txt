@@ -88,3 +88,8 @@ docker run -d -p 8444:8080 -v /home/jenkins:var/jenkins_home -v /var/run/docker.
 
 pm2 start yarn -- dev
 이걸로 실행하면 꺼지지 않고 유지된다    
+
+
+aws 재시작했을때
+sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
+이거 실행해줘야함
