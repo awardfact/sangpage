@@ -16,7 +16,7 @@ module.exports = class Board extends Sequelize.Model {
           allowNull : true,
 
         },
-        boaardTitle: {
+        boardTitle: {
           type: Sequelize.STRING(300),
           allowNull: true,
 

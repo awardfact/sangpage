@@ -1,18 +1,31 @@
 const express = require("express");
 const router = express.Router();
-const { Member } = require('../models');  
+const { Member , Test } = require('../models');  
 const path = require('path');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 
-
+var requestIp = require('request-ip');
 
 
 
 
 router.get("/", async  (req, res) => {
 
+    const ip = await Test.findOne({
+        where: {
+            ip: requestIp.getClientIp(req)
+        }
+    })
 
+
+    if(!ip){
+        const inserId = await Test.create({ 
+            ip :  requestIp.getClientIp(req)
+        });
+    }
+
+    
 
     if(req.session.sangpageMemNo){
 

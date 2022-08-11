@@ -22,7 +22,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
         const inserId = await Board.create({ 
 
             boardName : obj['content.boardName'] ,
-            boaardTitle : obj['content.title'] ,
+            boardTitle : obj['content.title'] ,
             boardContent : obj['content.content'] ,
             uploadFile : req.file.filename ? req.file.filename : ''   ,
             isNoMember : 0 ,
@@ -39,7 +39,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
         const inserId = await Board.create({ 
 
             boardName : obj['content.boardName'] ,
-            boaardTitle : obj['content.title'] ,
+            boardTitle : obj['content.title'] ,
             boardContent : obj['content.content'] ,
             uploadFile : req.file.filename ? req.file.filename : ''   ,
             isNoMember : 1 ,

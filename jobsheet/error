@@ -39,3 +39,29 @@ let idRegExr =  new RegExp("^[a-zA-z0-9]{5,15}$"); 이런식으로 정규식을 
 <SequelizeForeignKeyConstraintError>
     외래키는 null이나 있는 값을 넣어야하는데 0을 넣고 있었음 
 </SequelizeForeignKeyConstraintError>
+
+
+
+
+< undefined 에러 >
+    선언되지 않은 객체를 사용할 때 언디파인드 에러가 뜨는데 조건문을 추가해서 
+    if(객체 != 'undefined')를 추가해서 if문 안에서 작업을 하니까 원하는대로 작동 
+</ undefined 에러>
+
+
+<Link to에 변수넣기>
+    to={`/board/free_board_read?boardNo=${c.boardNo}`}이렇게 넣으면 된다 
+</Link to에 변수넣기>
+
+
+
+<is using incorrect casing.>
+    컴포넌트 이름 시작을 대문자로 안해서 생기는 오류 
+</is using incorrect casing.>
+
+
+
+<Failed prop type: The prop `open` is marked as required in `ForwardRef(Dialog)`>
+    Dialog의 open속성이 true가 되야 열리는 구조여서 state값이나 true값을 직접 넣어주면 된다 
+    <Dialog open={true}  >
+</Failed prop type: The prop `open` is marked as required in `ForwardRef(Dialog)`>

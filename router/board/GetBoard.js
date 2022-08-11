@@ -28,7 +28,34 @@ router.get("/"   , async  (req, res) => {
         offset : req.query.pageNum * (req.query.cpage -1),
         limit : Number(req.query.pageNum)
     });
+
+
     res.send(users); 
+
+
+});
+
+
+
+router.get("/read"   , async  (req, res) => {
+
+    const query = querystring.parse(req.query)
+
+
+
+    
+    if(req.query.boardNo){
+        const users = await Board.findOne({
+            where: {
+                boardNo: req.query.boardNo
+            },
+        });
+    
+    
+        res.send(users); 
+
+    }
+
 
 
 });
