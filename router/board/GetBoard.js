@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Board } = require('../../models');  
+const { Board , Memo } = require('../../models');  
 const path = require('path');
 const bcrypt = require('bcrypt')
 const fs = require('fs');
@@ -9,6 +9,41 @@ const fs = require('fs');
 const multer = require('multer');
 const upload = multer({dest : './front/public/image/board'});
 querystring = require('querystring');
+
+
+async function getMemo( memo){
+
+
+    memo.memo = await Memo.findAll({
+        where: {
+            boardNo: memo.boardNo,
+            parentMemoNo : memo.parentMemoNo ?  memo.parentMemoNo : 0,
+            deletedAt : null
+        },
+    });
+
+
+    console.log(memo.memo); 
+    memo.memo.forEach(e =>{  
+        console.log(e.dataValues);
+
+       // memo.memo.dataValues.child = getMemo(e.dataValues);
+
+    });
+
+
+    return memo;
+    // memo.memo.dataValues
+    // memo.memo.dataValues.child = await Memo.findAll({
+    //     where: {
+    //         parentMemoNo : memo.dataValues.memoNo
+    //     },
+    // });
+
+
+}
+
+
 
 /*
 게시글을 추가하는 페이지 
@@ -36,7 +71,6 @@ router.get("/"   , async  (req, res) => {
 });
 
 
-
 router.get("/read"   , async  (req, res) => {
 
     const query = querystring.parse(req.query)
@@ -45,12 +79,30 @@ router.get("/read"   , async  (req, res) => {
 
     
     if(req.query.boardNo){
-        const users = await Board.findOne({
+        let users = await Board.findOne({
             where: {
                 boardNo: req.query.boardNo
             },
         });
     
+
+        
+        users.dataValues.memo = await Memo.findAll({
+            where: {
+                boardNo: req.query.boardNo,
+                parentMemoNo : 0
+            },
+        });
+
+        users.dataValues.memo = getMemo(users.dataValues);
+        // users.dataValues.memo.forEach(e =>{
+
+        //     console.log(e);
+
+        // });
+
+        console.log(users.dataValues.memo);
+
     
         res.send(users); 
 

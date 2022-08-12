@@ -12,6 +12,7 @@ const MemberUpdate = require("./member/MemberUpdate");
 const AddBoard = require("./board/AddBoard");
 const GetBoard = require("./board/GetBoard");
 const UpdateBoard = require("./board/UpdateBoard");
+const DeleteBoard = require("./board/DeleteBoard");
 
 const CommonRouter = require("./Common");
 
@@ -28,6 +29,7 @@ router.use("/member/member_update", MemberUpdate);
 router.use("/board/add_board", AddBoard);
 router.use("/board/get_board", GetBoard);
 router.use("/board/update_board", UpdateBoard);
+router.use("/board/delete_board", DeleteBoard);
 
 
 router.use("/common", CommonRouter);

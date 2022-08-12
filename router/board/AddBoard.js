@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Board } = require('../../models');  
+const { Board,Memo } = require('../../models');  
 const path = require('path');
 const bcrypt = require('bcrypt')
 const fs = require('fs');
@@ -24,7 +24,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
             boardName : obj['content.boardName'] ,
             boardTitle : obj['content.title'] ,
             boardContent : obj['content.content'] ,
-            uploadFile : req.file.filename ? req.file.filename : ''   ,
+            uploadFile : req.file ? req.file.filename : ''   ,
             isNoMember : 0 ,
             writerNm : obj['memInfo.name'] ,
             password : '' ,
@@ -34,14 +34,14 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
         res.send('' + inserId.boardNo);
 
     }else{
-        const password =  obj['content.password'];
+        const password =  obj['contendt.password'];
         const encryptedPassowrd = bcrypt.hashSync(password, 10);
         const inserId = await Board.create({ 
 
             boardName : obj['content.boardName'] ,
             boardTitle : obj['content.title'] ,
             boardContent : obj['content.content'] ,
-            uploadFile : req.file.filename ? req.file.filename : ''   ,
+            uploadFile : req.file ? req.file.filename : ''   ,
             isNoMember : 1 ,
             writerNm : obj['content.id'] ,
             password : encryptedPassowrd ,
@@ -56,6 +56,33 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
 
 
 });
+
+
+/*
+게시글을 추가하는 페이지 
+회원인 경우와 비회원인 경우 다르게 들어감
+*/
+router.post("/memo" , async  (req, res) => {
+
+
+    const inserId = await Memo.create({ 
+        boardNo : req.body.data.boardNo ,
+        content : req.body.data.content ,
+        isNoMember : req.body.data.isNoMember ,
+        writerNm : req.body.data.writerNm ,
+        password : req.body.data.password ,
+        memNo : req.body.data.memNo ,
+        parentMemoNo : req.body.data.parentMemoNo ,
+    });
+
+    res.send('' + inserId.boardNo);
+
+
+
+
+});
+
+
 
 
 
