@@ -14,25 +14,36 @@ querystring = require('querystring');
 async function getMemo( memo){
 
 
-    memo.memo = await Memo.findAll({
-        where: {
-            boardNo: memo.boardNo,
-            parentMemoNo : memo.parentMemoNo ?  memo.parentMemoNo : 0,
-            deletedAt : null
-        },
-    });
+    if(memo.parentMemoNo != 'undefined' &&  memo.parentMemoNo != null){
+
+        memo.memo = await Memo.findAll({
+            where: {
+                boardNo: memo.boardNo,
+                parentMemoNo : memo.parentMemoNo ?  memo.parentMemoNo : 0,
+                deletedAt : null
+            },
+        });
 
 
-    console.log(memo.memo); 
-    memo.memo.forEach(e =>{  
-        console.log(e.dataValues);
+        memo.memo.forEach((key, index) =>{  
+            memo[key] = index.dataValues;
 
-       // memo.memo.dataValues.child = getMemo(e.dataValues);
-
-    });
+   
+        });
 
 
-    return memo;
+        console.log(memo);
+    }
+
+
+
+
+
+   // console.log(memo.memo[0]); 
+    //console.log(memo.memo[0].dataValues); 
+
+
+
     // memo.memo.dataValues
     // memo.memo.dataValues.child = await Memo.findAll({
     //     where: {
@@ -90,18 +101,24 @@ router.get("/read"   , async  (req, res) => {
         users.dataValues.memo = await Memo.findAll({
             where: {
                 boardNo: req.query.boardNo,
-                parentMemoNo : 0
+                deletedAt : null
             },
+            order : [
+                [' case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END ', 'ASC'],
+                ['parentMemoNo' ,"DESC"],
+                ["createdAt" , "DESC"]
+            ]
         });
 
-        users.dataValues.memo = getMemo(users.dataValues);
+        console.log(users.dataValues.memo)
+        //users.dataValues.memo = getMemo(users.dataValues);
         // users.dataValues.memo.forEach(e =>{
 
-        //     console.log(e);
+        //     console.log(e.dataValues);
 
         // });
 
-        console.log(users.dataValues.memo);
+      //  console.log(users.dataValues.memo);
 
     
         res.send(users); 

@@ -73,6 +73,7 @@ router.post("/memo" , async  (req, res) => {
         password : req.body.data.password ,
         memNo : req.body.data.memNo ,
         parentMemoNo : req.body.data.parentMemoNo ,
+        rootParentMemoNo : req.body.data.rootParentMemoNo ,
     });
 
     res.send('' + inserId.boardNo);
