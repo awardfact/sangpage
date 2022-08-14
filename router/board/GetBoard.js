@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Board , Memo } = require('../../models');  
+const { Board , Memo ,  } = require('../../models');  
+const index = require('../../models/index');  
 const path = require('path');
 const bcrypt = require('bcrypt')
 const fs = require('fs');
+const { Sequelize, DataTypes } = require('sequelize');
+
 
 //multer선언 이미지 업로드하면 이름을 겹치지 않게 해준다 
 const multer = require('multer');
@@ -29,7 +32,7 @@ async function getMemo( memo){
             memo[key] = index.dataValues;
 
    
-        });
+        }); 
 
 
         console.log(memo);
@@ -82,11 +85,20 @@ router.get("/"   , async  (req, res) => {
 });
 
 
+/*
+게시글과 댓글을 불러오는 페이지 
+
+*/
+
 router.get("/read"   , async  (req, res) => {
 
     const query = querystring.parse(req.query)
 
 
+    
+    const offset = (req.query.page -1) * req.query.pageNum;
+    const limit = req.query.pageNum;
+    
 
     
     if(req.query.boardNo){
@@ -98,19 +110,25 @@ router.get("/read"   , async  (req, res) => {
     
 
         
-        users.dataValues.memo = await Memo.findAll({
+       /* users.dataValues.memo = await Memo.findAll({
             where: {
                 boardNo: req.query.boardNo,
                 deletedAt : null
             },
             order : [
-                [' case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END ', 'ASC'],
+                [Sequelize.literal("case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END")],
+                //[' case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END ', 'ASC'],
                 ['parentMemoNo' ,"DESC"],
                 ["createdAt" , "DESC"]
             ]
         });
+        */
+        
+        const memo = await index.sequelize.query(`SELECT * from memo where boardNo=${req.query.boardNo} AND deletedAt is null order by  case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END ASC, parentMemoNo ASC , createdAt ASC limit ${limit} offset ${offset}   `);
+        
 
-        console.log(users.dataValues.memo)
+         users.dataValues.memo = memo[0];
+
         //users.dataValues.memo = getMemo(users.dataValues);
         // users.dataValues.memo.forEach(e =>{
 
@@ -127,7 +145,7 @@ router.get("/read"   , async  (req, res) => {
 
 
 
-});
+}); 
 
 
 

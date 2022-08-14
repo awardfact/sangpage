@@ -74,6 +74,7 @@ router.post("/memo" , async  (req, res) => {
         memNo : req.body.data.memNo ,
         parentMemoNo : req.body.data.parentMemoNo ,
         rootParentMemoNo : req.body.data.rootParentMemoNo ,
+        tree : req.body.data.tree ,
     });
 
     res.send('' + inserId.boardNo);

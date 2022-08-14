@@ -45,6 +45,10 @@ module.exports = class Memo extends Sequelize.Model {
           type: Sequelize.INTEGER ,
         allowNull: true,
       },
+        tree: {
+          type: Sequelize.INTEGER ,
+          allowNull: true,
+      },
         createdAt: {
             type: Sequelize.DATE,
             allowNull: false,
