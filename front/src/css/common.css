@@ -1,0 +1,20 @@
+.mainBox{
+    width : calc(100% -100px);
+    padding : 50px;
+    height : 500px;
+    position : relative;
+}
+
+
+.mainBox .mainContent{
+    vertical-align: middle;
+    text-align : center;
+    font-size: 40px;
+    padding : 30px;
+
+}
+
+
+.dpn {
+    display: none;
+}

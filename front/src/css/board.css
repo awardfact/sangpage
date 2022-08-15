@@ -1,0 +1,310 @@
+.freeBoardBox{
+    padding : 15px;
+    position: relative;
+}
+
+.freeBoardBox .freeBoardTitle{
+    font-size : 25px;
+    font-weight : bold;
+
+
+
+    margin : 20px 0px 20px 10%;
+}
+
+
+
+.freeBoardBox .freeBoardAddTitle{
+    font-size : 25px;
+    font-weight : bold;
+
+
+
+    margin : 20px 0px 20px 25%;
+}
+
+
+
+.freeBoardBox .freeBoardTable{
+    text-align: center;
+    width : 100%;
+    margin-bottom : 50px;
+}
+
+.freeBoard_box .freeBoardBottom {
+    text-align: right;
+    margin : 20px 0px 20px 0px;
+
+
+}
+
+
+.freeBoardBox  .freeBoardAdd{
+
+    font-size : 15px;
+    padding : 10px;
+    text-decoration: none;
+
+    color : black;
+    border : 1px solid black;
+}
+
+
+.boardAddBox{
+    margin : 0 25%;
+    
+}
+
+.boardAddBox .boardAddTitle{
+    width: 100%;
+    font-size: 12px;
+    margin : 5px 0px;
+
+}
+
+.boardAddBox div{
+    margin : 5px 0px;
+    font-size : 16px;
+    font-weight : bold;
+}
+
+.boardAddBox .boardAddFile{
+    margin : 5px 0px;
+    
+}
+
+.boardAddBox .boardAddContent{
+    width: 100%;
+    font-size: 12px;
+    resize: none;
+    height : 200px;
+    margin : 5px 0px;
+}
+
+
+.boardAddBox .boardAddBtnBox{
+    margin : 10px 0px;
+    text-align: center;;
+}
+
+
+.boardAddBox .boardAddBtnBox .boardAddRun{
+    display: inline-block;
+    font-size : 15px;
+    text-decoration: none;
+    background: #f0f0f0;
+    border : 1px solid black;
+    padding : 0px 10px;
+    line-height: 40px;
+    color : black;
+    margin : 0px 10px;
+    cursor : pointer;
+}
+
+
+
+
+.boardAddBox .boardAddBtnBox .boardAddCanel{
+
+    display: inline-block;
+    font-size : 15px;
+    text-decoration: none;
+    background: #f0f0f0;
+    border : 1px solid black;
+    line-height: 40px;
+    margin : 0px 10px;
+    padding : 0px 10px;
+    color : black;
+    font-weight: normal;
+}
+
+
+
+
+.board_read_link{
+    color : black;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+
+.boardReadBox{
+    padding : 15px;
+
+}
+
+
+
+
+.boardReadBox .boardReadTop{
+    margin : 5px 0px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color : whitesmoke;
+    padding : 10px;
+    display: flex;
+}
+
+
+.boardReadBox .boardReadTop .boardReadTitle{
+
+    flex : 1;
+
+
+}
+
+
+.boardReadBox .boardReadTop .boardReadWriter{
+    flex : 1;
+
+}
+
+.boardReadBox .boardReadTop .boardReadWriter{
+    flex : 1;
+
+}
+
+
+
+.boardReadBox .boardReadContent{
+
+    padding : 15px;
+    width: calc(100% - 30px);
+    font-size: 14px;
+    margin : 5px 0px;
+    
+}
+
+.boardReadBox .boardReadBottom{
+    margin : 5px 0px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color : whitesmoke;
+    padding : 10px 0px;
+    text-align: right;
+
+}
+
+.boardReadBox .boardReadBottom .boardReadUpdate{
+    display: inline-block;
+    margin : 0px 15px;
+    cursor : pointer;
+}
+
+.boardReadBox .boardReadBottom .boardReadDelete{
+    display: inline-block;
+    margin : 0px 15px;
+    cursor : pointer;
+}
+
+
+
+.passwordCheckInput{
+    width : 60%;
+    margin : 10px auto;
+    display : block;
+}
+
+.boardDeleteBox{
+    text-align: center;
+    width : 100%;
+}
+
+.passwordCheckRun{
+    display: inline-block;
+    padding : 10px;
+    border : 1px solid black;
+    margin : 0px 10px;
+}
+
+
+.passwordCheckExit{
+    display: inline-block;
+    padding : 10px;
+    border : 1px solid black;
+    margin : 0px 10px;
+}
+
+.memoBox{
+    padding : 15px;
+
+}
+
+
+.memoBox .memoTitle{
+    font-size : 15px;
+    font-weight : bold;
+
+    margin : 10px 0px;
+
+}
+
+.memoBox .inputMemo{
+    width: 60%;
+    font-size: 12px;
+    resize: none;
+    
+    margin : 0px 10px;
+    padding : 5px 0px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.memoBox .memoRun{
+    padding : 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.memoBox .memoIdBox{
+    margin : 10px 0px;
+}
+
+.memoBox .memoIdBox div{
+    margin : 0px 5px;
+    display: inline-block;
+}
+
+
+.memoBox .memoIdBox input{
+    margin : 0px 5px;
+    display: inline-block;
+}
+
+
+.memoBox .memoContentBox{
+    margin : 10px 0px;
+    padding: 15px;
+}
+
+
+.memoBox .memoContentBox .memo{
+    padding : 10px 0px;
+    font-size : 14px;
+    border-bottom : 1px solid black;
+
+}
+
+
+.memoBox .memoContentBox .memoRight{
+    float : right;
+
+}
+
+
+.memoBox .memoContentBox .memoRight div{
+    display: inline-block;
+    margin : 0px 10px;
+    cursor : pointer;
+}
+
+
+
+.memoBox .memoContentBox .memoReBox{
+    display : none;
+}
+
+.memoBox .memoContentBox .memoReBox.on{
+    display : block;
+}
