@@ -65,12 +65,47 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
 router.post("/memo" , async  (req, res) => {
 
 
+    const password =  req.body.data.password;
+    const encryptedPassowrd = bcrypt.hashSync(password, 10);
+
+
     const inserId = await Memo.create({ 
         boardNo : req.body.data.boardNo ,
         content : req.body.data.content ,
         isNoMember : req.body.data.isNoMember ,
         writerNm : req.body.data.writerNm ,
-        password : req.body.data.password ,
+        password : req.body.data.password ? encryptedPassowrd :  req.body.data.password,
+        memNo : req.body.data.memNo ,
+        parentMemoNo : 0 ,
+        rootParentMemoNo : 0 ,
+        tree : 0 ,
+    });
+
+    res.send('' + inserId.boardNo);
+
+
+
+
+});
+
+
+/*
+게시글을 추가하는 페이지 
+회원인 경우와 비회원인 경우 다르게 들어감
+*/
+router.post("/memo_reply" , async  (req, res) => {
+
+
+    const password =  req.body.data.passwordRe;
+    const encryptedPassowrd = bcrypt.hashSync(password, 10);
+
+
+    const inserId = await Memo.create({ 
+        boardNo : req.body.data.boardNo ,
+        content : req.body.data.contentRe ,
+        isNoMember : req.body.data.isNoMember ,
+        writerNm : req.body.data.writerNmRe ,
+        password : req.body.data.passwordRe ? encryptedPassowrd :  req.body.data.passwordRe,
         memNo : req.body.data.memNo ,
         parentMemoNo : req.body.data.parentMemoNo ,
         rootParentMemoNo : req.body.data.rootParentMemoNo ,
@@ -83,6 +118,7 @@ router.post("/memo" , async  (req, res) => {
 
 
 });
+
 
 
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Board } = require('../../models');  
+const { Board , Memo } = require('../../models');  
 const path = require('path');
 const bcrypt = require('bcrypt')
 const fs = require('fs');
@@ -16,8 +16,7 @@ const upload = multer({dest : './front/public/image/board'});
 router.post("/", upload.single('content.file')  , async  (req, res) => {
     const obj = JSON.parse(JSON.stringify(req.body));
     
-    console.log(obj);
-    console.log(req.file);
+
     if(req.file){
         fs.unlink(`./front/public/image/board/${obj['content.uploadFile']}` , (err)=>{
             console.log(err);
@@ -84,6 +83,31 @@ router.post("/auth", async  (req, res) => {
         res.send(same);
 
     }
+
+
+});
+
+
+
+/*
+댓글 패스워드 체크 
+*/
+router.post("/auth_memo", async  (req, res) => {
+
+
+
+
+    const memo = await Memo.findOne({
+        where: {
+            memoNo: req.body.memoNo,
+        }
+    });
+
+    if(memo){
+        const same = bcrypt.compareSync(req.body.password, memo.password);
+        res.send(same);
+    }
+
 
 
 });

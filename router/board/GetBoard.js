@@ -124,8 +124,39 @@ router.get("/read"   , async  (req, res) => {
         });
         */
         
-        const memo = await index.sequelize.query(`SELECT * from memo where boardNo=${req.query.boardNo} AND deletedAt is null order by  case    when rootParentMemoNo != 0 then  rootParentMemoNo ELSE memoNo  END ASC, parentMemoNo ASC , createdAt ASC limit ${limit} offset ${offset}   `);
+        const memo = await index.sequelize.query(`
+
+        WITH RECURSIVE CTE AS (
+            SELECT
+            
+            * , content AS PATH , memoNo AS PATH2 , 1 AS lvl
+            
+            FROM memo 
+            
+            WHERE parentMemoNo = 0 AND boardNo=${req.query.boardNo} AND  deletedAt is null
+            
+            
+            UNION ALL
+            
+            SELECT
+            
+            a.* ,  CONCAT(b.path,',',CONCAT('번호' , a.memoNo)) AS PATH , b.path2 , b.lvl + 1
+            
+            FROM memo a
+            
+            INNER JOIN CTE b ON a.parentMemoNo = b.memoNo 
+            
+            
+            
+            )
+            
+            SELECT * FROM CTE ORDER BY path2,  path  limit ${limit} offset ${offset} `);
         
+            
+        // SELECT * from memo where boardNo=${req.query.boardNo} AND 
+        // deletedAt is null order by  case    when rootParentMemoNo != 0 
+        // then  rootParentMemoNo ELSE memoNo  END ASC, parentMemoNo ASC , createdAt ASC 
+        // limit ${limit} offset ${offset}   
 
          users.dataValues.memo = memo[0];
 

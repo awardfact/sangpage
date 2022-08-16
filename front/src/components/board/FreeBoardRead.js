@@ -140,7 +140,6 @@ function DeleteCheck(props){
 // 비밀번호 검증 컴포넌트 
 function PasswordCheck(props){
 
-    console.log(props);
     return(
         <div>
             <Dialog open={true}  >
@@ -148,14 +147,14 @@ function PasswordCheck(props){
                 <>
                     <DialogTitle>게시글 패스워드를 입력해주세요.</DialogTitle>
                     <DialogContent>
-                        <input className="passwordCheckInput" type="password" name="password" onChange={props.changeBoardInput}  value={props.boardContent.password} />
+                        <input className="passwordCheckInput" type="password" name="password" onChange={props.changeBoardInput}   value={props.boardContent.password} />
                     </DialogContent>
                 </>
                 : 
                 <>
                     <DialogTitle>댓글 패스워드를 입력해주세요.</DialogTitle>
                     <DialogContent>
-                        <input className="passwordCheckInput" type="password" name="passwordRe" onChange={props.changeMemoInput}  value={props.memoContent.passwordRe} />
+                        <input className="passwordCheckInput" type="password" name="passwordRe" onChange={props.changeMemoInput}     value={props.memoContent.passwordRe} />
                     </DialogContent>
                 </>
                 }
@@ -173,12 +172,17 @@ function PasswordCheck(props){
 //댓글 컴포넌트 
 function BoardMemo(props){
 
+    useEffect(()=>{
+        console.log(props);
+
+
+    });
 
     return(
         <div className="memoBox">
             <div className="memoTitle" >댓글</div>
 
-
+            {/* 댓글 창 회원이 아니면 아이디와 패스워드를 입력하는 텍스트필드 출력  */}
             { !props.memInfo ? 
                 <>
                     <div>비회원으로 댓글을 작성하려면 아이디와 패스워드를 입력해야 합니다.</div>
@@ -198,45 +202,52 @@ function BoardMemo(props){
                 <textarea className="inputMemo" ref={props.memoRef}  name="content" value={props.memoContent.content}  onChange={props.changeMemoInput}  ></textarea>
                 <button className="memoRun" onClick={props.memoRun} >댓글작성</button>
             </div>
+
+
+            {/* 댓댓글 댓글을 출력하고 대댓글 작성, 수정 , 삭제를 할 수 있다   */}
             <div className="memoContentBox">
               { props.boardContent.memo ?  props.boardContent.memo.map((e) =>{
                 return(
-                    <>
-                        <div className="memo"  key={e.memoNo} data-tree={e.tree} >{e.content}
+                    <div key={e.memoNo}>
+                        <div className="memo"  key={e.memoNo} data-tree={e.tree} >{ e.tree !== 0 ? 'ㄴ' : ''}{e.content}  <span  >작성자 : {e.writerNm} </span>
                             <div className="memoRight">
-                                <div className="memoReply" onClick={props.memoReply} data-memoNo={e.memoNo} >답글</div>
+                                <div className="memoReply"  data-state="replyMemo"   data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}  data-parent-memo-no={e.memoNo}  data-tree={e.tree + 1}   onClick={props.memoReply}  >답글</div>
 
                                 { props.boardSet.isAdmin === 1 || e.memNo === props.boardSet.memNo ? 
-                                    <div  className="memoUpdate" data-state="update" onClick={props.memoStateChange}    >수정하기</div>
+                                    <div  className="memoUpdate" data-state="updateMemo" data-is-no-member-re={e.isNoMember}  data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    onClick={props.memoStateChange}    >수정하기</div>
                                 : '' }
                                 { props.boardSet.isAdmin !== 1 &&  e.isNoMember === 1 ? 
-                                    <div  className="memoUpdate" data-state="updatePasswordMemo" onClick={props.memoStateChange}    >수정하기</div>
+                                    <div  className="memoUpdate" data-state="updatePasswordMemo" data-is-no-member-re={e.isNoMember}  data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >수정하기</div>
                                 : '' }
 
                                 { props.boardSet.isAdmin === 1 || e.memNo === props.boardSet.memNo ? 
-                                    <div  className="memoDelete" data-state="delete" onClick={props.memoStateChange}    >삭제하기</div>
+                                    <div  className="memoDelete" data-state="deleteMemo"  data-is-no-member-re={e.isNoMember} data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >삭제하기</div>
                                 : '' }
                                 { props.boardSet.isAdmin !== 1 &&   e.isNoMember === 1 ? 
-                                    <div  className="memoDelete" data-state="deletePasswordMemo" onClick={props.memoStateChange}    >삭제하기</div>
+                                    <div  className="memoDelete" data-state="deletePasswordMemo"  data-is-no-member-re={e.isNoMember}  data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    data-memo-no={e.memoNo}  onClick={props.memoStateChange}    >삭제하기</div>
                                 : '' }
                     
 
                             </div>
                         </div>
+                        { props.memoContent.memoNo === e.memoNo  && (props.readState === 'updateMemo' || props.readState == 'replyMemo' )  ? 
                         <div className="memoReBox">
-                            { !props.memInfo ? 
-                                <div className="memoIdBox"   >
-                                    <div>아이디 : </div>
-                                    <input   ref={props.memoIdRef} type="text"  name="writerNm" value={props.memoContent.writerNm}  onChange={props.changeMemoInput}   />
-                                    <div>패스워드 : </div>
-                                    <input ref={props.memoPassRef} type="password"  name="password" value={props.memoContent.password}  onChange={props.changeMemoInput}   />
-                                </div>
-                            : " "}
-                                <textarea className="inputMemo" ref={props.memoRef}  name="content" value={props.memoContent.content}  onChange={props.changeMemoInput}  ></textarea>
-                                <button className="memoRun" onClick={props.memoRun} >댓글작성</button>
-                        </div>
+                                { !props.memInfo ? 
+                                <>
+                                    <div className="memoIdBox"   >
+                                        <div>아이디 : </div>
+                                        <input   ref={props.memoIdReRef} type="text"  name="writerNmRe" value={props.memoContent.writerNmRe}  onChange={props.changeMemoInput}   />
+                                        <div>패스워드 : </div>
+                                        <input ref={props.memoPassReRef} type="password"  name="passwordRe" value={props.memoContent.passwordRe}  onChange={props.changeMemoInput}   />
+                                    </div>
+                                </>
+                                 : "" }
 
-                    </>
+                                <textarea className="inputMemo" ref={props.memoReRef}  name="contentRe" value={props.memoContent.contentRe}  onChange={props.changeMemoInput}  ></textarea>
+                                <button className="memoRunReply" onClick={props.memoRunReply} >댓글작성</button>
+                        </div>
+                        : " "}
+                    </div>
                      
                 )
               }) : ""}
@@ -274,6 +285,10 @@ function FreeBoardRead(props){
     const memoIdRef = useRef();
     const memoPassRef = useRef();
 
+    const memoReRef = useRef();
+    const memoIdReRef = useRef();
+    const memoPassReRef = useRef();
+
 
     //state설정 상태 state, 게시글 state , 권한 state , 댓글 state
     const [readState, setReadState] = useState('read');
@@ -298,6 +313,7 @@ function FreeBoardRead(props){
         content : '',
         contentRe : '',
         isNoMember : 0,
+        isNoMemberRe : 0,
         writerNm : '',
         password : '',
         writerNmRe : '',
@@ -319,10 +335,67 @@ function FreeBoardRead(props){
 
 
 
+    //대댓글 작성 
+    const memoRunReply = (e) =>{
 
+        if(!memoContent.contentRe){
+            alert('댓글을 입력해주세요.');
+            memoReRef.current.focus();
+            return false;
+        }
+
+
+        if(memoContent.isNoMemberRe == 1 && !memoContent.writerNmRe){
+            alert('아이디를 입력해주세요.');
+            memoIdReRef.current.focus();
+            return false;
+        }
+
+        
+
+        
+        if(memoContent.isNoMember == 1 && !memoContent.passwordRe){
+            alert('패스워드 입력해주세요.');
+            memoPassReRef.current.focus();
+            return false;
+        }
+
+
+
+
+
+        axios.post("/board/add_board/memo_reply", {
+            data : memoContent,
+        }
+        ).then(function (response) {
+
+            if(response.data){
+                alert('댓글 작성에 성공했습니다.');
+                window.location.reload();
+            }else{
+                alert('댓글 작성에 실패했습니다.');
+            }
+
+        }).catch(function (error) {
+           alert('댓글 작성에 실패했습니다.');
+        });
+
+
+
+
+
+
+
+    }
 
     //댓글 작성 
     const memoRun  = (e) =>{
+
+
+
+       
+
+
         if(!memoContent.content){
             alert('댓글을 입력해주세요.');
             memoRef.current.focus();
@@ -361,10 +434,13 @@ function FreeBoardRead(props){
             }
 
         }).catch(function (error) {
-           alert('댓글 작성에 실패했습니다.');
+            alert('댓글 작성에 실패했습니다.');
         });
 
 
+
+
+     
 
 
 
@@ -373,12 +449,23 @@ function FreeBoardRead(props){
 
     //a 상태 변경 
     const memoStateChange = (e) =>{
+
+
+
         setMemoContent({
-            ...boardContent,
+            ...memoContent,
             password : '',
+            passwordRe : '',
+            writerNmRe : '',
+            contentRe : '',
+            memoNo :  Number(e.target.dataset.memoNo),
+            tree : Number(e.target.dataset.tree),
+            isNoMemberRe : Number(e.target.dataset.isNoMemberRe),
+            rootParentMemoNo : Number(e.target.dataset.rootParentNo) !== 0 ?   Number(e.target.dataset.rootParentNo) : Number(e.target.dataset.memoNo)
         });
         setReadState(e.target.dataset.state);
     }
+
 
     //게시글 상태 변경 
     const readStateChange = (e) =>{
@@ -417,25 +504,57 @@ function FreeBoardRead(props){
 
     //비회원이 작성한 글인경우 패스워드 검증 
     const passwordValidation = (e) =>{
-        axios.post("/board/update_board/auth", {
-            boardNo : boardContent.boardNo,
-            password : boardContent.password,
-        }
-        ).then(function (response) {
 
-            if(response.data){
-                if(readState == 'updatePassword'){
-                    setReadState('update');                    
-                }else if(readState == 'deletePassword'){
-                    setReadState('delete');
-                }
-            }else{
-                alert('패스워드가 일치하지 않습니다.');
+
+
+
+        if(readState.includes('Memo')){
+
+            axios.post("/board/update_board/auth_memo", {
+                boardNo : boardContent.boardNo,
+                memoNo : memoContent.memoNo,
+                password : memoContent.passwordRe,
             }
+            ).then(function (response) {
+    
+                if(response.data){
+                    setReadState('updateMemo');
 
-        }).catch(function (error) {
-            alert('통신 오류입니다 다시 시도해주세요.');
-        });
+                    console.log(memoContent);
+                }else{
+                    alert('패스워드가 일치하지 않습니다.');
+                }
+    
+            }).catch(function (error) {
+                alert('통신 오류입니다 다시 시도해주세요.');
+            });
+    
+
+        }else{
+
+
+            axios.post("/board/update_board/auth", {
+                boardNo : boardContent.boardNo,
+                password : boardContent.password,
+            }
+            ).then(function (response) {
+    
+                if(response.data){
+                    if(readState == 'updatePassword'){
+                        setReadState('update');                    
+                    }else if(readState == 'deletePassword'){
+                        setReadState('delete');
+                    }
+                }else{
+                    alert('패스워드가 일치하지 않습니다.');
+                }
+    
+            }).catch(function (error) {
+                alert('통신 오류입니다 다시 시도해주세요.');
+            });
+    
+
+        }
 
 
     }
@@ -497,6 +616,7 @@ function FreeBoardRead(props){
 
     //댓글 내용 변경 
     const changeMemoInput = (e)=>{
+
         if(e.target.value.length <= 500){
             setMemoContent({
                 ...memoContent ,    
@@ -537,7 +657,7 @@ function FreeBoardRead(props){
                 memNo  : props.memInfo.memNo
             });
 
-
+ 
         }else if(boardContent != 'undefined'  && boardContent != null){
 
 
@@ -565,6 +685,9 @@ function FreeBoardRead(props){
         ).then(function (response) {
 
             response.data.createdAt = response.data.createdAt.split('T')[0];
+
+
+  
             setBoardContent(response.data);
 
             memoSet();
@@ -594,6 +717,31 @@ function FreeBoardRead(props){
 
     const memoReply = (e) =>{
 
+  
+
+        if(readState != 'read' && Number(e.target.dataset.memoNo) == memoContent.memoNo){
+
+            setReadState('read');
+
+        }else{
+            setReadState(e.target.dataset.state);
+        }
+
+
+        console.log(e.target.dataset.parentMemoNo);
+        setMemoContent({
+            ...memoContent,
+            password : '',
+            passwordRe : '',
+            writerNmRe : '',
+            contentRe : '',
+            memoNo :  Number(e.target.dataset.memoNo),
+            tree : Number(e.target.dataset.tree),
+            isNoMemberRe : Number(e.target.dataset.isNoMemberRe),
+            parentMemoNo : Number(e.target.dataset.parentMemoNo),
+            rootParentMemoNo : Number(e.target.dataset.rootParentNo) !== 0 ?   Number(e.target.dataset.rootParentNo) : Number(e.target.dataset.memoNo)
+        });
+
 
 
 
@@ -612,7 +760,7 @@ function FreeBoardRead(props){
             for (let item of memoTmp) {
                 if(item.dataset.tree != 0){
                     item.style.marginLeft = 10 * item.dataset.tree + 'px';
-                    item.innerHTML = 'ㄴ' + item.innerHTML;
+                  //  item.innerHTML = 'ㄴ' + item.innerHTML;
                 }
             }
 
@@ -652,10 +800,10 @@ function FreeBoardRead(props){
 
     return(
         <div className="freeBoardBox" >
-            { readState == 'read' || readState == 'updatePassword' || readState == 'delete' || readState == 'deletePassword' ?     
+            { readState == 'read' || readState == 'updatePassword' || readState == 'delete' || readState == 'deletePassword' || readState == 'deleteMemo' ||  readState == 'updatePasswordMemo'  || readState == 'deletePasswordMemo' || readState == 'updateMemo' || readState == 'replyMemo' ?     
             <>
                 <FreeBoardReading  memInfo={props.memInfo} boardContent={boardContent}  boardSet={boardSet} readStateChange={readStateChange} />
-                <BoardMemo  memoStateChange={memoStateChange} memoReply={memoReply} memInfo={props.memInfo} boardContent={boardContent} memoRun={memoRun} boardSet={boardSet}  memoRef={memoRef} memoContent={memoContent} changeMemoInput={changeMemoInput} memoIdRef={memoIdRef} memoPassRef={memoPassRef} />
+                <BoardMemo readState={readState}  memoStateChange={memoStateChange} memoReply={memoReply} memInfo={props.memInfo} boardContent={boardContent} memoRun={memoRun} memoRunReply={memoRunReply}  boardSet={boardSet}  memoRef={memoRef} memoContent={memoContent} changeMemoInput={changeMemoInput} memoIdRef={memoIdRef} memoPassRef={memoPassRef} memoReRef={memoReRef}  memoIdReRef={memoIdReRef}  memoPassReRef={memoPassReRef} />
             </>
 
 
@@ -667,7 +815,7 @@ function FreeBoardRead(props){
             }
             {readState == 'updatePassword'  || readState == 'deletePassword'  || readState == 'updatePasswordMemo'  || readState == 'deletePasswordMemo'  ?
             
-            <PasswordCheck readState={readState}  memInfo={props.memInfo} boardContent={boardContent} memoContent={memoContent}    boardSet={boardSet} readStateChange={readStateChange} passwordValidation={passwordValidation} changeBoardInput={changeBoardInput}   />
+            <PasswordCheck readState={readState}  memInfo={props.memInfo} boardContent={boardContent} memoContent={memoContent}    boardSet={boardSet} readStateChange={readStateChange} passwordValidation={passwordValidation} changeBoardInput={changeBoardInput}  changeMemoInput={changeMemoInput}  />
             :'' 
             }
 

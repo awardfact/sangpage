@@ -257,6 +257,13 @@
     vertical-align: middle;
 }
 
+.memoBox .memoRunReply{
+    padding : 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
 .memoBox .memoIdBox{
     margin : 10px 0px;
 }
@@ -285,7 +292,9 @@
     border-bottom : 1px solid black;
 
 }
-
+.memoBox .memoContentBox .memo span{
+    margin-left : 20px;
+}
 
 .memoBox .memoContentBox .memoRight{
     float : right;
@@ -301,10 +310,3 @@
 
 
 
-.memoBox .memoContentBox .memoReBox{
-    display : none;
-}
-
-.memoBox .memoContentBox .memoReBox.on{
-    display : block;
-}
