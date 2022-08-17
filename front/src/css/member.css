@@ -143,7 +143,11 @@
     margin : 10px auto;
 
 }
+.loginBox .loginInputContent{
 
+    margin : 10px 0px;
+    text-align: center;;
+}
 .loginBox .loginInputContent .joinInputTitle{
 
     width : 55px;

@@ -85,21 +85,66 @@ function FreeBoardTable(props){
 function FreeBoard(props){
 
 
+
     const [page, setPage] = useState({
         cpage : 1,
         pageNum : 10,
-        boardName : 'free'
+        boardName : 'free',
+        total : 0,
+        totalPage : 0,
     });
 
 
     const [freeboardContent , setFreeboardContent]  = useState();
 
     useEffect( () => { 
+        getBoardCount();
+    }, []);
+ 
+
+    useEffect( () => { 
         getFreeBoard();
     
+        console.log(page);
     }, [page]);
 
 
+    // 게시판 글을 가져온다 
+    const getBoardCount = () =>{
+
+        axios.get("/board/get_board/total",
+        {
+            params :  {
+                boardName : boardName,
+            }
+        }
+        ).then(function (response) {
+
+            console.log(response);
+            let pageTmp = parseInt(response.data.total / page.pageNum);
+
+
+            if(response.data.total % page.pageNum){
+                pageTmp += 1;
+            }
+            setPage({
+                ...page,
+                total : response.data.total,
+                totalPage :  pageTmp,
+            });
+
+
+
+
+        }).catch(function (error) {
+        //  console.log(error);
+        });
+    }
+
+        
+
+
+    // 게시판 글을 가져온다 
     const getFreeBoard =() =>{
 
         axios.get("/board/get_board",
@@ -111,8 +156,10 @@ function FreeBoard(props){
             }
         }
         ).then(function (response) {
- 
-            setFreeboardContent(response.data);
+
+            //가져온 게시판 글을 세팅해준다 
+            setFreeboardContent(response.data.data );
+
 
         }).catch(function (error) {
         //  console.log(error);

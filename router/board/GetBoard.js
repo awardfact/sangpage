@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Board , Memo ,  } = require('../../models');  
+const { Board , Memo  } = require('../../models');  
 const index = require('../../models/index');  
 const path = require('path');
 const bcrypt = require('bcrypt')
@@ -35,7 +35,6 @@ async function getMemo( memo){
         }); 
 
 
-        console.log(memo);
     }
 
 
@@ -79,10 +78,58 @@ router.get("/"   , async  (req, res) => {
     });
 
 
-    res.send(users); 
+
+
+    if(users){
+
+
+        const totalBoard = await Board.findOne({
+            attributes : [[index.sequelize.fn("count",  "*") , "count"]],
+            where: {
+                boardName: req.query.boardName
+            },
+        });
+
+        //users.dataValues.totalBoard = totalBoard.dataValues.count;
+        console.log(users);
+        res.send({data : users , total : totalBoard.dataValues.count } ); 
+    }
+
+
 
 
 });
+
+
+
+
+
+/*
+게시글 개수를 가져오는 페이지 
+*/
+router.get("/total"   , async  (req, res) => {
+
+
+
+    const totalBoard = await Board.findOne({
+        attributes : [[index.sequelize.fn("count",  "*") , "total"]],
+        where: {
+            boardName: req.query.boardName
+        },
+    });
+
+    
+
+
+
+    res.send(totalBoard);
+
+
+
+
+});
+
+
 
 
 /*
@@ -102,6 +149,8 @@ router.get("/read"   , async  (req, res) => {
 
     
     if(req.query.boardNo){
+
+        //게시판 내용 불러옴
         let users = await Board.findOne({
             where: {
                 boardNo: req.query.boardNo
@@ -123,34 +172,46 @@ router.get("/read"   , async  (req, res) => {
             ]
         });
         */
-        
-        const memo = await index.sequelize.query(`
 
-        WITH RECURSIVE CTE AS (
-            SELECT
+        // 게시판 댓글 개수 불러움 
+        const totalMemo = await Memo.findOne({
+            attributes : [[index.sequelize.fn("count",  "*") , "count"]],
+            where: {
+                boardNo: req.query.boardNo,
+
+            },
+        });
+
+
+        users.dataValues.total = totalMemo.dataValues.count;
+
+        // const memo2 = await index.sequelize.query(`
+
+        // WITH RECURSIVE CTE AS (
+        //     SELECT
             
-            * , content AS PATH , memoNo AS PATH2 , 1 AS lvl
+        //     * , content AS PATH , memoNo AS PATH2 , 1 AS lvl
             
-            FROM memo 
+        //     FROM memo 
             
-            WHERE parentMemoNo = 0 AND boardNo=${req.query.boardNo} AND  deletedAt is null
-            
-            
-            UNION ALL
-            
-            SELECT
-            
-            a.* ,  CONCAT(b.path,',',CONCAT('번호' , a.memoNo)) AS PATH , b.path2 , b.lvl + 1
-            
-            FROM memo a
-            
-            INNER JOIN CTE b ON a.parentMemoNo = b.memoNo 
+        //     WHERE parentMemoNo = 0 AND boardNo=${req.query.boardNo} AND  deletedAt is null
             
             
+        //     UNION ALL
             
-            )
+        //     SELECT
             
-            SELECT * FROM CTE ORDER BY path2,  path  limit ${limit} offset ${offset} `);
+        //     a.* ,  CONCAT(b.path,',',CONCAT('번호' , a.memoNo)) AS PATH , b.path2 , b.lvl + 1
+            
+        //     FROM memo a
+            
+        //     INNER JOIN CTE b ON a.parentMemoNo = b.memoNo 
+            
+            
+            
+        //     )
+            
+        //     SELECT * FROM CTE ORDER BY path2,  path  limit ${limit} offset ${offset} `);
         
             
         // SELECT * from memo where boardNo=${req.query.boardNo} AND 
@@ -158,7 +219,7 @@ router.get("/read"   , async  (req, res) => {
         // then  rootParentMemoNo ELSE memoNo  END ASC, parentMemoNo ASC , createdAt ASC 
         // limit ${limit} offset ${offset}   
 
-         users.dataValues.memo = memo[0];
+       //  users.dataValues.memo = memo2[0];
 
         //users.dataValues.memo = getMemo(users.dataValues);
         // users.dataValues.memo.forEach(e =>{
@@ -178,6 +239,50 @@ router.get("/read"   , async  (req, res) => {
 
 }); 
 
+
+
+//댓글 불러오는 페이지
+router.get("/memo"   , async  (req, res) => {
+
+    const query = querystring.parse(req.query)
+
+
+    
+    const offset = (req.query.page -1) * req.query.pageNum;
+    const limit = req.query.pageNum;
+    
+
+
+
+
+    //계층형 쿼리 이용해서 댓글을 불러옴 
+    const memo = await index.sequelize.query(`
+
+    WITH RECURSIVE CTE AS (
+        SELECT
+        * , content AS PATH , memoNo AS PATH2 , 1 AS lvl
+        FROM memo 
+        WHERE parentMemoNo = 0 AND boardNo=${req.query.boardNo} 
+        UNION ALL
+        SELECT
+        a.* ,  CONCAT(b.path,',',CONCAT('번호' , a.memoNo)) AS PATH , b.path2 , b.lvl + 1
+        FROM memo a
+        INNER JOIN CTE b ON a.parentMemoNo = b.memoNo 
+        )
+        SELECT * FROM CTE where deletedAt IS NULL  ORDER BY path2,  path    limit ${limit} offset ${offset} `);
+    
+        
+
+
+
+
+
+    res.send(memo[0]); 
+
+
+
+
+}); 
 
 
 

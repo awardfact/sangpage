@@ -66,6 +66,45 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
 
 });
 
+
+
+
+/*
+댓글 수정하는 페이지 
+*/
+router.post("/memo" , async  (req, res) => {
+
+
+    const password =  req.body.data.passwordRe;
+    const encryptedPassowrd = bcrypt.hashSync(password, 10);
+
+
+
+    const inserId = await Memo.update({ 
+
+        content : req.body.data.contentRe ,
+        writerNm : req.body.data.writerNmRe  ?  req.body.data.writerNmRe : req.body.memInfo.name  ,
+        password : req.body.data.passwordRe ? encryptedPassowrd :  req.body.data.passwordRe,
+
+
+    },{
+        where: {
+            memoNo : req.body.data.memoNo
+        }
+    }
+    );
+
+    res.send('' + inserId.boardNo);
+
+
+
+
+});
+
+
+
+
+
 /*
 패스워드 체크 
 */
@@ -103,9 +142,14 @@ router.post("/auth_memo", async  (req, res) => {
         }
     });
 
+
     if(memo){
         const same = bcrypt.compareSync(req.body.password, memo.password);
+        
         res.send(same);
+    }else{
+
+        res.send(false);
     }
 
 

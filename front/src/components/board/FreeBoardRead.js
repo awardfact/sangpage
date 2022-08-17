@@ -8,7 +8,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 
-//게시글 수정 컴포넌트 
+/*
+게시글 수정 컴포넌트 
+글 작성과 유사한 형태로 수정란이 출력된다 
+*/
 function FreeBoardAddInput(props){
 
 
@@ -57,6 +60,7 @@ function FreeBoardAddInput(props){
 
 /*
 게시판 내용 컴포넌트 
+상단에 제목 작성자 작성일을 출력하고 업로드한 이미지와 글 내용 출력, 수정,삭제가 가능한 경우에는 수정,삭제 버튼이 출력된다 
 */
 function FreeBoardReading(props){
 
@@ -168,15 +172,67 @@ function PasswordCheck(props){
     );
 }
 
+//페이지 컴포넌트 
+function BoardPage(props){
+
+
+    const makePage = () =>{
+        const pageHtml = [];
+        let startPage = 1;
+        if(props.page != 'undefined'){
+
+            if(props.page.cpage > 5){
+                pageHtml.push(<div className="memoPage" data-move-page="1" key={'bb'}  onClick={props.pageMove}   >{"<<"}</div>);
+                pageHtml.push(<div className="memoPage" data-move-page={Number(props.page.cpage)-5}   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
+            
+                 startPage = props.page.cpage-2;
+            }else if(props.page.cpage > 3){
+                pageHtml.push(<div className="memoPage"  data-move-page="1"   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
+                 startPage = props.page.cpage-2;
+            }
+            for(let i = startPage; i < startPage + 5; i++){
+                if(i > props.page.totalPage){
+                    break;
+                }
+                if(props.page.cpage == i ){
+                    pageHtml.push(<div className="memoPageC"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
+                }else{
+                    pageHtml.push(<div className="memoPage"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
+                }
+            }
+
+
+            if(props.page.cpage + 5 < props.page.totalPage){
+                pageHtml.push(<div className="memoPage" key={'r'} onClick={props.pageMove}   data-move-page={Number(props.page.cpage)+5}  >{">"}</div>);
+                pageHtml.push(<div className="memoPage"  key={'rr'} onClick={props.pageMove}   data-move-page={props.page.totalPage}  >{">>"}</div>);
+
+            }else if(props.page.cpage + 2 < props.page.totalPage){
+                pageHtml.push(<div key={'r'}  className="memoPage" onClick={props.pageMove}   data-move-page={props.page.totalPage}    >{">"}</div>);
+
+            }
+
+            return pageHtml;
+
+        }
+
+
+    }
+
+
+
+    return(
+
+        <div className="boardPageBox">
+            {makePage()}
+        </div>
+
+    );
+
+}
 
 //댓글 컴포넌트 
 function BoardMemo(props){
 
-    useEffect(()=>{
-        console.log(props);
-
-
-    });
 
     return(
         <div className="memoBox">
@@ -206,25 +262,25 @@ function BoardMemo(props){
 
             {/* 댓댓글 댓글을 출력하고 대댓글 작성, 수정 , 삭제를 할 수 있다   */}
             <div className="memoContentBox">
-              { props.boardContent.memo ?  props.boardContent.memo.map((e) =>{
+              { props.memo ?  props.memo.map((e) =>{
                 return(
                     <div key={e.memoNo}>
                         <div className="memo"  key={e.memoNo} data-tree={e.tree} >{ e.tree !== 0 ? 'ㄴ' : ''}{e.content}  <span  >작성자 : {e.writerNm} </span>
                             <div className="memoRight">
                                 <div className="memoReply"  data-state="replyMemo"   data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}  data-parent-memo-no={e.memoNo}  data-tree={e.tree + 1}   onClick={props.memoReply}  >답글</div>
 
-                                { props.boardSet.isAdmin === 1 || e.memNo === props.boardSet.memNo ? 
-                                    <div  className="memoUpdate" data-state="updateMemo" data-is-no-member-re={e.isNoMember}  data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    onClick={props.memoStateChange}    >수정하기</div>
+                                { Number(props.boardSet.isAdmin) === 1 || ( props.boardSet.memNo &&  e.memNo === props.boardSet.memNo ) ? 
+                                    <div  className="memoUpdate" data-state="updateMemo"   data-memo-no={e.memoNo}  data-is-no-member-re={props.boardSet.memNo}  data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    onClick={props.memoStateChange}    >수정하기</div>
                                 : '' }
-                                { props.boardSet.isAdmin !== 1 &&  e.isNoMember === 1 ? 
-                                    <div  className="memoUpdate" data-state="updatePasswordMemo" data-is-no-member-re={e.isNoMember}  data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >수정하기</div>
+                                { Number(props.boardSet.isAdmin) !== 1 &&  Number(e.isNoMember) === 1 ? 
+                                    <div  className="memoUpdate" data-state="updatePasswordMemo"  data-memo-no={e.memoNo}  data-is-no-member-re={props.boardSet.memNo}   data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >수정하기</div>
                                 : '' }
 
-                                { props.boardSet.isAdmin === 1 || e.memNo === props.boardSet.memNo ? 
-                                    <div  className="memoDelete" data-state="deleteMemo"  data-is-no-member-re={e.isNoMember} data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >삭제하기</div>
+                                { Number(props.boardSet.isAdmin) === 1 ||  ( props.boardSet.memNo &&  e.memNo === props.boardSet.memNo ) ? 
+                                    <div  className="memoDelete" data-state="deleteMemo"  data-is-no-member-re={props.boardSet.memNo} data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}   onClick={props.memoStateChange}    >삭제하기</div>
                                 : '' }
-                                { props.boardSet.isAdmin !== 1 &&   e.isNoMember === 1 ? 
-                                    <div  className="memoDelete" data-state="deletePasswordMemo"  data-is-no-member-re={e.isNoMember}  data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    data-memo-no={e.memoNo}  onClick={props.memoStateChange}    >삭제하기</div>
+                                { Number(props.boardSet.isAdmin) !== 1 &&  Number(e.isNoMember) === 1 ? 
+                                    <div  className="memoDelete" data-state="deletePasswordMemo"  data-is-no-member-re={props.boardSet.memNo}  data-root-parent-no={e.rootParentMemoNo}   data-tree={e.tree + 1}    data-memo-no={e.memoNo}  onClick={props.memoStateChange}    >삭제하기</div>
                                 : '' }
                     
 
@@ -232,7 +288,9 @@ function BoardMemo(props){
                         </div>
                         { props.memoContent.memoNo === e.memoNo  && (props.readState === 'updateMemo' || props.readState == 'replyMemo' )  ? 
                         <div className="memoReBox">
-                                { !props.memInfo ? 
+
+
+                                { !props.memInfo || (props.readState === 'updateMemo' && e.isNoMember === 1)  ? 
                                 <>
                                     <div className="memoIdBox"   >
                                         <div>아이디 : </div>
@@ -242,7 +300,7 @@ function BoardMemo(props){
                                     </div>
                                 </>
                                  : "" }
-
+                                { props.readState === 'updateMemo' ? '수정' : '답글'}
                                 <textarea className="inputMemo" ref={props.memoReRef}  name="contentRe" value={props.memoContent.contentRe}  onChange={props.changeMemoInput}  ></textarea>
                                 <button className="memoRunReply" onClick={props.memoRunReply} >댓글작성</button>
                         </div>
@@ -252,7 +310,7 @@ function BoardMemo(props){
                 )
               }) : ""}
             </div>
-
+            <BoardPage  page={props.page} pageMove={props.pageMove} />
         </div>
 
     );
@@ -292,6 +350,8 @@ function FreeBoardRead(props){
 
     //state설정 상태 state, 게시글 state , 권한 state , 댓글 state
     const [readState, setReadState] = useState('read');
+
+    const [memo, setMemo] = useState();
     const [boardContent , setBoardContent] = useState({
         title : '',
         content : '',
@@ -329,6 +389,8 @@ function FreeBoardRead(props){
     const [page, setPage] = useState({
         cpage : 1,
         pageNum : 20,
+        total : 0,
+        totalPage : 0,
     });
     const {title, content, file,  fileName, id,  password}  = boardContent;
 
@@ -338,6 +400,10 @@ function FreeBoardRead(props){
     //대댓글 작성 
     const memoRunReply = (e) =>{
 
+
+
+
+        
         if(!memoContent.contentRe){
             alert('댓글을 입력해주세요.');
             memoReRef.current.focus();
@@ -345,7 +411,7 @@ function FreeBoardRead(props){
         }
 
 
-        if(memoContent.isNoMemberRe == 1 && !memoContent.writerNmRe){
+        if(boardSet.memNo == 0 && !memoContent.writerNmRe){
             alert('아이디를 입력해주세요.');
             memoIdReRef.current.focus();
             return false;
@@ -354,7 +420,7 @@ function FreeBoardRead(props){
         
 
         
-        if(memoContent.isNoMember == 1 && !memoContent.passwordRe){
+        if(boardSet.memNo == 0 && !memoContent.passwordRe){
             alert('패스워드 입력해주세요.');
             memoPassReRef.current.focus();
             return false;
@@ -363,22 +429,50 @@ function FreeBoardRead(props){
 
 
 
+        if(readState === 'updateMemo'){
 
-        axios.post("/board/add_board/memo_reply", {
-            data : memoContent,
-        }
-        ).then(function (response) {
-
-            if(response.data){
-                alert('댓글 작성에 성공했습니다.');
-                window.location.reload();
-            }else{
-                alert('댓글 작성에 실패했습니다.');
+            axios.post("/board/update_board/memo", {
+                data : memoContent,
+                memInfo : props.memInfo
             }
+            ).then(function (response) {
+    
+                if(response.data){
+                    alert('댓글 수정에 성공했습니다.');
+                    window.location.reload();
+                }else{
+                    alert('댓글 수정에 실패했습니다.');
+                }
+    
+            }).catch(function (error) {
+               alert('댓글 수정에 실패했습니다.');
+            });
+    
 
-        }).catch(function (error) {
-           alert('댓글 작성에 실패했습니다.');
-        });
+
+        }else if(readState == 'replyMemo'){
+
+
+            axios.post("/board/add_board/memo_reply", {
+                data : memoContent,
+                memInfo : props.memInfo
+            }
+            ).then(function (response) {
+    
+                if(response.data){
+                    alert('댓글 작성에 성공했습니다.');
+                    window.location.reload();
+                }else{
+                    alert('댓글 작성에 실패했습니다.');
+                }
+    
+            }).catch(function (error) {
+               alert('댓글 작성에 실패했습니다.');
+            });
+    
+
+        }
+
 
 
 
@@ -403,7 +497,7 @@ function FreeBoardRead(props){
         }
 
 
-        if(memoContent.isNoMember == 1 && !memoContent.writerNm){
+        if(boardSet.memNo == 0 && !memoContent.writerNm){
             alert('아이디를 입력해주세요.');
             memoIdRef.current.focus();
             return false;
@@ -412,7 +506,7 @@ function FreeBoardRead(props){
         
 
         
-        if(memoContent.isNoMember == 1 && !memoContent.password){
+        if(boardSet.memNo == 0 && !memoContent.password){
             alert('패스워드 입력해주세요.');
             memoPassRef.current.focus();
             return false;
@@ -423,6 +517,7 @@ function FreeBoardRead(props){
 
         axios.post("/board/add_board/memo", {
             data : memoContent,
+            memInfo : props.memInfo
         }
         ).then(function (response) {
 
@@ -451,6 +546,7 @@ function FreeBoardRead(props){
     const memoStateChange = (e) =>{
 
 
+    
 
         setMemoContent({
             ...memoContent,
@@ -460,7 +556,7 @@ function FreeBoardRead(props){
             contentRe : '',
             memoNo :  Number(e.target.dataset.memoNo),
             tree : Number(e.target.dataset.tree),
-            isNoMemberRe : Number(e.target.dataset.isNoMemberRe),
+            isNoMemberRe : props.memInfo  ? 0 : 1 ,
             rootParentMemoNo : Number(e.target.dataset.rootParentNo) !== 0 ?   Number(e.target.dataset.rootParentNo) : Number(e.target.dataset.memoNo)
         });
         setReadState(e.target.dataset.state);
@@ -480,22 +576,54 @@ function FreeBoardRead(props){
 
     //게시글 삭제 
     const deleteRun = (e) =>{
-        axios.post("/board/delete_board", {
-            data : boardContent,
-        }
-        ).then(function (response) {
 
-            if(response.data){
-                alert('게시글 삭제에 성공했습니다.');
-                window.location.href="../board/free_board";
-            }else{
-                alert('게시글 삭제에 실패했습니다.');
+
+
+
+        if(readState == 'deleteMemo'){
+
+            axios.post("/board/delete_board/memo", {
+                data : memoContent,
             }
+            ).then(function (response) {
+    
+                if(response.data){
+                    alert('댓글 삭제에 성공했습니다.');
+                    window.location.reload();
+                }else{
+                    alert('댓글 삭제에 실패했습니다.');
+                }
+    
+            }).catch(function (error) {
+                alert('댓글 삭제에 실패했습니다.');
+            });
+    
 
-        }).catch(function (error) {
-            alert('게시글 삭제에 실패했습니다.');
-        });
 
+        }else{
+
+
+            axios.post("/board/delete_board", {
+                data : boardContent,
+            }
+            ).then(function (response) {
+    
+                if(response.data){
+                    alert('게시글 삭제에 성공했습니다.');
+                    window.location.href="../board/free_board";
+                }else{
+                    alert('게시글 삭제에 실패했습니다.');
+                }
+    
+            }).catch(function (error) {
+                alert('게시글 삭제에 실패했습니다.');
+            });
+    
+    
+
+
+
+        }
 
 
 
@@ -518,7 +646,12 @@ function FreeBoardRead(props){
             ).then(function (response) {
     
                 if(response.data){
-                    setReadState('updateMemo');
+
+                    if(readState == 'updatePasswordMemo'){
+                        setReadState('updateMemo');
+                    }else if(readState == 'deletePasswordMemo'){
+                        setReadState('deleteMemo');
+                    }
 
                     console.log(memoContent);
                 }else{
@@ -648,6 +781,7 @@ function FreeBoardRead(props){
         if(props.memInfo != 'undefined'  && props.memInfo != null  && boardContent != 'undefined'  && boardContent != null ){
 
 
+  
             setBoardSet({
                 ...boardSet,
                 isFile : boardContent.uploadFile ? 1 : 0,
@@ -671,6 +805,18 @@ function FreeBoardRead(props){
 
     }
 
+    const pageMove = (e)=>{
+
+
+        
+        setPage({
+            ...page,
+            cpage : Number(e.target.dataset.movePage),
+        });
+
+    }
+
+
     // 게시글 내용 가져오는 함수 
     const getBoard =() =>{
 
@@ -686,11 +832,22 @@ function FreeBoardRead(props){
 
             response.data.createdAt = response.data.createdAt.split('T')[0];
 
-
   
             setBoardContent(response.data);
+            let pageTmp = parseInt(response.data.total / page.pageNum);
 
-            memoSet();
+
+            if(response.data.total % page.pageNum){
+                pageTmp += 1;
+            }
+            setPage({
+                ...page,
+                total : response.data.total,
+                totalPage :  pageTmp,
+            });
+
+
+           // memoSet();
 
 
 
@@ -700,6 +857,31 @@ function FreeBoardRead(props){
     }
 
 
+
+    const getMemo = () =>{
+
+        axios.get("/board/get_board/memo",
+        {
+            params :  {
+                boardNo : boardNo,
+                page : page.cpage,
+                pageNum :  page.pageNum,
+            }
+        }
+        ).then(function (response) {
+
+
+            console.log(response);
+            setMemo(response.data);
+            memoSet();
+
+        }).catch(function (error) {
+        //  console.log(error);
+        });
+
+
+
+    }
 
     
 
@@ -727,8 +909,7 @@ function FreeBoardRead(props){
             setReadState(e.target.dataset.state);
         }
 
-
-        console.log(e.target.dataset.parentMemoNo);
+        console.log(props.memInfo);
         setMemoContent({
             ...memoContent,
             password : '',
@@ -737,7 +918,7 @@ function FreeBoardRead(props){
             contentRe : '',
             memoNo :  Number(e.target.dataset.memoNo),
             tree : Number(e.target.dataset.tree),
-            isNoMemberRe : Number(e.target.dataset.isNoMemberRe),
+            isNoMemberRe : props.memInfo ?  0 : 1 ,
             parentMemoNo : Number(e.target.dataset.parentMemoNo),
             rootParentMemoNo : Number(e.target.dataset.rootParentNo) !== 0 ?   Number(e.target.dataset.rootParentNo) : Number(e.target.dataset.memoNo)
         });
@@ -746,6 +927,36 @@ function FreeBoardRead(props){
 
 
     }
+
+
+        //페이지 설정 설정
+        const pageSet = () =>{
+
+
+            setTimeout(() =>{
+    
+                console.log(page.cpage);
+
+
+
+                const memoTmp = document.getElementsByClassName("memo");
+    
+    
+        
+                for (let item of memoTmp) {
+                    if(item.dataset.tree != 0){
+                        item.style.marginLeft = 10 * item.dataset.tree + 'px';
+                      //  item.innerHTML = 'ㄴ' + item.innerHTML;
+                    }
+                }
+    
+    
+            }, 0);
+     
+            
+        }
+
+
 
     //메모 설정
     const memoSet = () =>{
@@ -787,7 +998,7 @@ function FreeBoardRead(props){
 
         }
 
-    } , []);
+    } , [props]);
 
 
     useEffect( () => { 
@@ -795,7 +1006,10 @@ function FreeBoardRead(props){
 
     } , [boardContent]);
 
-    
+    useEffect( () => { 
+        getMemo();
+    } , [page]);
+
 
 
     return(
@@ -803,7 +1017,7 @@ function FreeBoardRead(props){
             { readState == 'read' || readState == 'updatePassword' || readState == 'delete' || readState == 'deletePassword' || readState == 'deleteMemo' ||  readState == 'updatePasswordMemo'  || readState == 'deletePasswordMemo' || readState == 'updateMemo' || readState == 'replyMemo' ?     
             <>
                 <FreeBoardReading  memInfo={props.memInfo} boardContent={boardContent}  boardSet={boardSet} readStateChange={readStateChange} />
-                <BoardMemo readState={readState}  memoStateChange={memoStateChange} memoReply={memoReply} memInfo={props.memInfo} boardContent={boardContent} memoRun={memoRun} memoRunReply={memoRunReply}  boardSet={boardSet}  memoRef={memoRef} memoContent={memoContent} changeMemoInput={changeMemoInput} memoIdRef={memoIdRef} memoPassRef={memoPassRef} memoReRef={memoReRef}  memoIdReRef={memoIdReRef}  memoPassReRef={memoPassReRef} />
+                <BoardMemo memo={memo} pageMove={pageMove} page={page} readState={readState}  memoStateChange={memoStateChange} memoReply={memoReply} memInfo={props.memInfo} boardContent={boardContent} memoRun={memoRun} memoRunReply={memoRunReply}  boardSet={boardSet}  memoRef={memoRef} memoContent={memoContent} changeMemoInput={changeMemoInput} memoIdRef={memoIdRef} memoPassRef={memoPassRef} memoReRef={memoReRef}  memoIdReRef={memoIdReRef}  memoPassReRef={memoPassReRef} />
             </>
 
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Board } = require('../../models');  
+const { Board ,  Memo } = require('../../models');  
 const path = require('path');
 const bcrypt = require('bcrypt')
 const fs = require('fs');
@@ -76,6 +76,69 @@ router.post("/",  async  (req, res) => {
 
 
 
+async function deleteMemo( memoNo){
+
+    let subMemo = await Memo.findAll({
+        where: {
+            parentMemoNo : memoNo
+        },
+    });
+
+
+    if(subMemo){
+        subMemo.forEach((e)=>{
+
+            deleteMemo(e.dataValues.memoNo);
+    
+        });
+
+
+    }else{
+
+        return 1;
+
+    }
+
+
+
+    const memo = await Memo.destroy({
+        where : {
+            memoNo : memoNo
+        }
+    });
+
+
+}
+
+
+
+/*
+게시글을 추가하는 페이지 
+회원인 경우와 비회원인 경우 다르게 들어감
+*/
+router.post("/memo",  async  (req, res) => {
+
+
+
+
+    const memoD = deleteMemo(req.body.data.memoNo);
+
+
+    // const memo = await Memo.destroy({
+    //     where : {
+    //         memoNo : req.body.data.memoNo
+    //     }
+    // });
+
+
+
+    if(memoD){
+        res.send('' + memoD);
+    }
+
+
+
+});
 
 
 module.exports = router;

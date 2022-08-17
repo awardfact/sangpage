@@ -69,11 +69,14 @@ router.post("/memo" , async  (req, res) => {
     const encryptedPassowrd = bcrypt.hashSync(password, 10);
 
 
+
+
+
     const inserId = await Memo.create({ 
         boardNo : req.body.data.boardNo ,
         content : req.body.data.content ,
         isNoMember : req.body.data.isNoMember ,
-        writerNm : req.body.data.writerNm ,
+        writerNm :  req.body.memInfo ? req.body.memInfo.name : req.body.data.writerNm ,
         password : req.body.data.password ? encryptedPassowrd :  req.body.data.password,
         memNo : req.body.data.memNo ,
         parentMemoNo : 0 ,
@@ -103,8 +106,8 @@ router.post("/memo_reply" , async  (req, res) => {
     const inserId = await Memo.create({ 
         boardNo : req.body.data.boardNo ,
         content : req.body.data.contentRe ,
-        isNoMember : req.body.data.isNoMember ,
-        writerNm : req.body.data.writerNmRe ,
+        isNoMember :  req.body.memInfo ? 0 : 1 ,
+        writerNm : req.body.memInfo ? req.body.memInfo.name : req.body.data.writerNmRe ,
         password : req.body.data.passwordRe ? encryptedPassowrd :  req.body.data.passwordRe,
         memNo : req.body.data.memNo ,
         parentMemoNo : req.body.data.parentMemoNo ,
