@@ -1,9 +1,9 @@
-.freeBoardBox{
+.boardBox{
     padding : 15px;
     position: relative;
 }
 
-.freeBoardBox .freeBoardTitle{
+.boardBox .boardTitle{
     font-size : 25px;
     font-weight : bold;
 
@@ -14,7 +14,7 @@
 
 
 
-.freeBoardBox .freeBoardAddTitle{
+.boardBox .boardAddTitle{
     font-size : 25px;
     font-weight : bold;
 
@@ -25,13 +25,13 @@
 
 
 
-.freeBoardBox .freeBoardTable{
+.boardBox .boardTable{
     text-align: center;
     width : 100%;
     margin-bottom : 50px;
 }
 
-.freeBoard_box .freeBoardBottom {
+.board_box .boardBottom {
     text-align: right;
     margin : 20px 0px 20px 0px;
 
@@ -39,7 +39,7 @@
 }
 
 
-.freeBoardBox  .freeBoardAdd{
+.boardBox  .boardAdd{
 
     font-size : 15px;
     padding : 10px;
@@ -292,13 +292,23 @@
     border-bottom : 1px solid black;
 
 }
-.memoBox .memoContentBox .memo span{
+
+.memoBox .memoContentBox .memoContent{
+    width : 50%;
+    display: inline-block;
+    word-break:break-all;
+}
+
+
+.memoBox .memoContentBox .memo .memoWriter{
     margin-left : 20px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .memoBox .memoContentBox .memoRight{
     float : right;
-
+    display: inline-block;
 }
 
 
@@ -336,4 +346,87 @@
     padding : 5px;
     display: inline-block;
     color : red;
+}
+
+
+@media screen and (max-width: 700px) {
+    .boardBox{
+        padding : 3px;
+    }
+
+    .MuiTableCell-root{
+        padding : 5px !important;
+        font-size: 12px !important;
+        text-align: center !important;
+    }
+
+
+    .boardBox .boardAddTitle{
+        margin : 10px;
+    }
+
+    .boardAddBox{
+        margin : 0 auto;
+        padding : 10px;
+    }
+
+    .boardAddBox .boardAddTitle{
+        width: calc(100% - 20px);        
+    }
+
+    .boardAddBox .boardAddContent{
+        width : calc(100% - 10px);
+    }
+
+    .boardReadBox .boardReadTop{
+        padding : 5px;
+        font-size  : 12px;
+    }
+
+    .boardReadBox .boardReadContent img{
+        max-width : 100%;
+    }
+
+    .boardReadBox .boardReadBottom{
+        font-size : 12px;
+    }
+    .memoBox{
+        padding : 10px;
+    }
+
+    .memoBox .memoIdBox div{
+        margin : 0px;
+    }
+    .memoBox .memoIdBox input{
+        width : 80px;
+    }
+
+    .memoBox .memoContentBox .memo{
+        font-size : 10px;
+    }
+
+    .memoBox .memoContentBox .memo span{
+        margin-left : 5px;
+    }
+    .memoBox .memoContentBox .memoRight div{
+        margin : 0 5px;
+    }
+
+    .memoBox .memoContentBox{
+        padding : 5px;
+    }
+
+    .memoBox .memoContentBox .memoContent{
+        width : 100%;
+    }
+
+    .memoBox .memoContentBox .memo .memoWriter{
+        margin-left : 5px;
+        margin-top : 10px;
+    }
+
+    .memoBox .memoContentBox .memoRight{
+        margin-top : 10px;
+
+    }
 }

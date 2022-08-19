@@ -2,6 +2,8 @@ import React , {useRef, useEffect, useState , Component} from 'react';
 import "../../css/board.css";
 import axios ,{post } from 'axios';
 import { Link } from 'react-router-dom';
+import BoardAddInput from '../board/BoardAddInput';
+
 
 
 function FreeBoardAddInput(props){
@@ -45,7 +47,7 @@ function FreeBoardAddInput(props){
 }
 
 
-function FreeBoardAdd(props){
+function UpdateBoardAdd(props){
 
 
     //입력 안했을떄 포커스를 주기위한 Ref
@@ -63,7 +65,7 @@ function FreeBoardAdd(props){
         fileName : '',
         id : '',
         password : '',
-        boardName : 'free',
+        boardName : 'update',
     });
 
     const {title, content, file,  fileName, id,  password}  = boardContent;
@@ -110,7 +112,7 @@ function FreeBoardAdd(props){
             if(response.data){
                 if(response.data){
                     alert('게시글 작성에 성공하였습니다.');
-                     window.location.href="./free_board";
+                     window.location.href="./update_board";
                  }else{
                      alert('게시글 작성에 실패하였습니다.');
                  }
@@ -158,10 +160,10 @@ function FreeBoardAdd(props){
     return(
         <div className="boardBox" >
             <div className="boardAddTitle" >
-                자유게시판 게시글 작성
+                수정사항 게시글 작성
             </div>
 
-            <FreeBoardAddInput  memInfo={props.memInfo} boardAddRun={boardAddRun} titleRef={titleRef} contentRef={contentRef} idRef={idRef} passwordRef={passwordRef}   boardContent={boardContent} changeBoardInput={changeBoardInput}  handleFileChange={handleFileChange} />
+            <BoardAddInput  memInfo={props.memInfo} boardAddRun={boardAddRun} titleRef={titleRef} contentRef={contentRef} idRef={idRef} passwordRef={passwordRef}   boardContent={boardContent} changeBoardInput={changeBoardInput}  handleFileChange={handleFileChange} />
         </div>
         
     );
@@ -171,4 +173,4 @@ function FreeBoardAdd(props){
 
 
 
-export default FreeBoardAdd;
+export default UpdateBoardAdd;

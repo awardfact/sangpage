@@ -227,3 +227,42 @@
     margin : 0 auto;
 
 }
+
+
+@media screen and (max-width: 700px) {
+    .loginBox{
+        width : calc(100% - 40px);
+    }
+
+    .loginBox .loginBtnBox{
+        width : 100%;
+    }
+
+    .loginBox .loginBtnBox .loginBtn{
+        font-size : 12px;
+    }
+
+    .joinStartBox .joinStartBtnBox{
+        padding : 0px;
+        width : 100%;
+    }
+
+    .loginBox .loginBtnBox .kakaoLoginBtn{
+        font-size: 12px;
+    }
+    .joinStartBox .joinStartBtnBox .joinPage{
+        width : calc(50% - 40px);
+        margin : 0px 5px;
+        font-size : 12px;
+    }
+    .joinStartBox .joinStartBtnBox .joinKakao{
+        width : calc(50% - 40px);
+        margin : 0px 5px;
+        font-size : 12px;
+    }
+
+
+    .joinBox .joinBtnBox{
+        width : 100%;
+    }
+}

@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
-
+import BoardPage from '../board/BoardPage';
 /*
 게시글 수정 컴포넌트 
 글 작성과 유사한 형태로 수정란이 출력된다 
@@ -147,7 +147,7 @@ function PasswordCheck(props){
     return(
         <div>
             <Dialog open={true}  >
-                { props.readState == 'delete' ? 
+                { props.readState == 'updatePassword' || props.readState == 'deletePassword' ? 
                 <>
                     <DialogTitle>게시글 패스워드를 입력해주세요.</DialogTitle>
                     <DialogContent>
@@ -172,63 +172,63 @@ function PasswordCheck(props){
     );
 }
 
-//페이지 컴포넌트 
-function BoardPage(props){
+// //페이지 컴포넌트 
+// function BoardPage(props){
 
 
-    const makePage = () =>{
-        const pageHtml = [];
-        let startPage = 1;
-        if(props.page != 'undefined'){
+//     const makePage = () =>{
+//         const pageHtml = [];
+//         let startPage = 1;
+//         if(props.page != 'undefined'){
 
-            if(props.page.cpage > 5){
-                pageHtml.push(<div className="memoPage" data-move-page="1" key={'bb'}  onClick={props.pageMove}   >{"<<"}</div>);
-                pageHtml.push(<div className="memoPage" data-move-page={Number(props.page.cpage)-5}   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
+//             if(props.page.cpage > 5){
+//                 pageHtml.push(<div className="memoPage" data-move-page="1" key={'bb'}  onClick={props.pageMove}   >{"<<"}</div>);
+//                 pageHtml.push(<div className="memoPage" data-move-page={Number(props.page.cpage)-5}   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
             
-                 startPage = props.page.cpage-2;
-            }else if(props.page.cpage > 3){
-                pageHtml.push(<div className="memoPage"  data-move-page="1"   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
-                 startPage = props.page.cpage-2;
-            }
-            for(let i = startPage; i < startPage + 5; i++){
-                if(i > props.page.totalPage){
-                    break;
-                }
-                if(props.page.cpage == i ){
-                    pageHtml.push(<div className="memoPageC"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
-                }else{
-                    pageHtml.push(<div className="memoPage"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
-                }
-            }
+//                  startPage = props.page.cpage-2;
+//             }else if(props.page.cpage > 3){
+//                 pageHtml.push(<div className="memoPage"  data-move-page="1"   key={'b'} onClick={props.pageMove}  >{"<"}</div>);
+//                  startPage = props.page.cpage-2;
+//             }
+//             for(let i = startPage; i < startPage + 5; i++){
+//                 if(i > props.page.totalPage){
+//                     break;
+//                 }
+//                 if(props.page.cpage == i ){
+//                     pageHtml.push(<div className="memoPageC"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
+//                 }else{
+//                     pageHtml.push(<div className="memoPage"   data-move-page={i}  onClick={props.pageMove}  key={i} >{i}</div>);
+//                 }
+//             }
 
 
-            if(props.page.cpage + 5 < props.page.totalPage){
-                pageHtml.push(<div className="memoPage" key={'r'} onClick={props.pageMove}   data-move-page={Number(props.page.cpage)+5}  >{">"}</div>);
-                pageHtml.push(<div className="memoPage"  key={'rr'} onClick={props.pageMove}   data-move-page={props.page.totalPage}  >{">>"}</div>);
+//             if(props.page.cpage + 5 < props.page.totalPage){
+//                 pageHtml.push(<div className="memoPage" key={'r'} onClick={props.pageMove}   data-move-page={Number(props.page.cpage)+5}  >{">"}</div>);
+//                 pageHtml.push(<div className="memoPage"  key={'rr'} onClick={props.pageMove}   data-move-page={props.page.totalPage}  >{">>"}</div>);
 
-            }else if(props.page.cpage + 2 < props.page.totalPage){
-                pageHtml.push(<div key={'r'}  className="memoPage" onClick={props.pageMove}   data-move-page={props.page.totalPage}    >{">"}</div>);
+//             }else if(props.page.cpage + 2 < props.page.totalPage){
+//                 pageHtml.push(<div key={'r'}  className="memoPage" onClick={props.pageMove}   data-move-page={props.page.totalPage}    >{">"}</div>);
 
-            }
+//             }
 
-            return pageHtml;
+//             return pageHtml;
 
-        }
-
-
-    }
+//         }
 
 
+//     }
 
-    return(
 
-        <div className="boardPageBox">
-            {makePage()}
-        </div>
 
-    );
+//     return(
 
-}
+//         <div className="boardPageBox">
+//             {makePage()}
+//         </div>
+
+//     );
+
+// }
 
 //댓글 컴포넌트 
 function BoardMemo(props){
@@ -236,7 +236,7 @@ function BoardMemo(props){
 
     return(
         <div className="memoBox">
-            <div className="memoTitle" >댓글</div>
+            <div className="memoTitle" >댓글 { props.page.totalPage ? "[" + props.page.total + "]"  : ""}</div>
 
             {/* 댓글 창 회원이 아니면 아이디와 패스워드를 입력하는 텍스트필드 출력  */}
             { !props.memInfo ? 
@@ -265,7 +265,7 @@ function BoardMemo(props){
               { props.memo ?  props.memo.map((e) =>{
                 return(
                     <div key={e.memoNo}>
-                        <div className="memo"  key={e.memoNo} data-tree={e.tree} >{ e.tree !== 0 ? 'ㄴ' : ''}{e.content}  <span  >작성자 : {e.writerNm} </span>
+                        <div className="memo"  key={e.memoNo} data-tree={e.tree} ><span className="memoContent">{ e.tree !== 0 ? 'ㄴ' : ''}{e.content}</span>  <span className="memoWriter"  >작성자 : {e.writerNm} </span>
                             <div className="memoRight">
                                 <div className="memoReply"  data-state="replyMemo"   data-memo-no={e.memoNo} data-root-parent-no={e.rootParentMemoNo}  data-parent-memo-no={e.memoNo}  data-tree={e.tree + 1}   onClick={props.memoReply}  >답글</div>
 
@@ -653,7 +653,6 @@ function FreeBoardRead(props){
                         setReadState('deleteMemo');
                     }
 
-                    console.log(memoContent);
                 }else{
                     alert('패스워드가 일치하지 않습니다.');
                 }
@@ -871,7 +870,6 @@ function FreeBoardRead(props){
         ).then(function (response) {
 
 
-            console.log(response);
             setMemo(response.data);
             memoSet();
 
@@ -909,7 +907,6 @@ function FreeBoardRead(props){
             setReadState(e.target.dataset.state);
         }
 
-        console.log(props.memInfo);
         setMemoContent({
             ...memoContent,
             password : '',
@@ -935,7 +932,6 @@ function FreeBoardRead(props){
 
             setTimeout(() =>{
     
-                console.log(page.cpage);
 
 
 
@@ -970,7 +966,7 @@ function FreeBoardRead(props){
     
             for (let item of memoTmp) {
                 if(item.dataset.tree != 0){
-                    item.style.marginLeft = 10 * item.dataset.tree + 'px';
+                    item.style.marginLeft = 5 * item.dataset.tree + 'px';
                   //  item.innerHTML = 'ㄴ' + item.innerHTML;
                 }
             }
@@ -1013,7 +1009,7 @@ function FreeBoardRead(props){
 
 
     return(
-        <div className="freeBoardBox" >
+        <div className="boardBox" >
             { readState == 'read' || readState == 'updatePassword' || readState == 'delete' || readState == 'deletePassword' || readState == 'deleteMemo' ||  readState == 'updatePasswordMemo'  || readState == 'deletePasswordMemo' || readState == 'updateMemo' || readState == 'replyMemo' ?     
             <>
                 <FreeBoardReading  memInfo={props.memInfo} boardContent={boardContent}  boardSet={boardSet} readStateChange={readStateChange} />

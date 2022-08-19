@@ -15,7 +15,7 @@ const UpdateBoard = require("./board/UpdateBoard");
 const DeleteBoard = require("./board/DeleteBoard");
 
 const CommonRouter = require("./Common");
-
+const MainRouter = require("./Main");
 
 
 //라우터 연결 
@@ -33,7 +33,7 @@ router.use("/board/delete_board", DeleteBoard);
 
 
 router.use("/common", CommonRouter);
-
+router.use("/main", MainRouter);
 
 module.exports = router; 
   

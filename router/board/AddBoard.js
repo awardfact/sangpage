@@ -18,6 +18,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
 
     const obj = JSON.parse(JSON.stringify(req.body));
 
+    console.log(obj);
     if(obj['memInfo.memNo']){
         const inserId = await Board.create({ 
 
@@ -34,7 +35,8 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
         res.send('' + inserId.boardNo);
 
     }else{
-        const password =  obj['contendt.password'];
+        const password =  obj['content.password'];
+
         const encryptedPassowrd = bcrypt.hashSync(password, 10);
         const inserId = await Board.create({ 
 

@@ -18,6 +18,9 @@ import MemberUpdate from "../components/member/MemberUpdate";
 import FreeBoard from "../components/board/FreeBoard";
 import FreeBoardAdd from "../components/board/FreeBoardAdd";
 import FreeBoardRead from "../components/board/FreeBoardRead";
+import UpdateBoard from "../components/board/UpdateBoard";
+import UpdateBoardAdd from "../components/board/UpdateBoardAdd";
+import UpdateBoardRead from "../components/board/UpdateBoardRead";
 
 
 //라우터
@@ -100,6 +103,20 @@ function App2(){
 
             <Route exact path="/board/free_board_read" element={<FreeBoardRead memInfo={memInfo} />} >
             </Route>
+
+
+
+            <Route exact path="/board/update_board" element={<UpdateBoard memInfo={memInfo} />} >
+            </Route>
+
+            <Route exact path="/board/update_board_add" element={<UpdateBoardAdd memInfo={memInfo} />} >
+            </Route>
+            
+
+            <Route exact path="/board/update_board_read" element={<UpdateBoardRead memInfo={memInfo} />} >
+            </Route>
+            
+
 
           </Routes>
           <Footer/>

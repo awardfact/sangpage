@@ -44,7 +44,7 @@ function BoardMenu(props){
 
             }}  >게시판</div>
             <div className="subMenuBox dpn" ref={boardRef} id="board" > 
-                <div className="subMenu" >공지사항</div>
+                <Link className="subMenu" to="/board/update_board" >수정사항</Link>
                 <Link className="subMenu" to="/board/free_board" >자유게시판</Link>
             </div>
         </div>

@@ -1,8 +1,27 @@
 
 import React , {useEffect, useState , Component} from 'react';
-
+import axios ,{post } from 'axios';
 
 function Main(props){
+
+
+
+    const getMainInfo = ()=>{
+        // axios.get("/main/exchange",
+        // ).then(function (response) {
+        // }).catch(function (error) {
+        // //  console.log(error);
+        // });
+
+
+    }
+
+    useEffect(()=>{
+
+        getMainInfo();
+
+    });
+
 
     return(
         <div className="mainBox">

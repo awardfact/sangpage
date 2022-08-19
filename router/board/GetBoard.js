@@ -74,7 +74,8 @@ router.get("/"   , async  (req, res) => {
             boardName: req.query.boardName
         },
         offset : req.query.pageNum * (req.query.cpage -1),
-        limit : Number(req.query.pageNum)
+        limit : Number(req.query.pageNum),
+
     });
 
 
@@ -91,7 +92,22 @@ router.get("/"   , async  (req, res) => {
         });
 
         //users.dataValues.totalBoard = totalBoard.dataValues.count;
-        console.log(users);
+        
+
+        //  users.forEach(async (e , k)=>{
+
+        //     let totalMemo = await Memo.findOne({
+        //         attributes : [[index.sequelize.fn("count",  "*") , "count"]],
+        //         where: {
+        //             boardNo: e.dataValues.boardNo
+        //         },
+        //     });
+
+
+        //     users[k].dataValues.memoCount = totalMemo.dataValues.count;
+
+        // });
+
         res.send({data : users , total : totalBoard.dataValues.count } ); 
     }
 

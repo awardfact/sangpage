@@ -8,7 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { Link } from 'react-router-dom';
-
+import BoardPage from '../board/BoardPage';
+import BoardTable from '../board/BoardTable';
 
 /*
 게시판 테이블 컴포넌트 
@@ -97,18 +98,8 @@ function FreeBoard(props){
 
     const [freeboardContent , setFreeboardContent]  = useState();
 
-    useEffect( () => { 
-        getBoardCount();
-    }, []);
- 
 
-    useEffect( () => { 
-        getFreeBoard();
     
-        console.log(page);
-    }, [page]);
-
-
     // 게시판 글을 가져온다 
     const getBoardCount = () =>{
 
@@ -120,7 +111,6 @@ function FreeBoard(props){
         }
         ).then(function (response) {
 
-            console.log(response);
             let pageTmp = parseInt(response.data.total / page.pageNum);
 
 
@@ -142,6 +132,17 @@ function FreeBoard(props){
     }
 
         
+    //페이지 전환 클릭 
+    const pageMove = (e)=>{
+
+
+        
+        setPage({
+            ...page,
+            cpage : Number(e.target.dataset.movePage),
+        });
+
+    }
 
 
     // 게시판 글을 가져온다 
@@ -167,27 +168,41 @@ function FreeBoard(props){
     }
 
 
+    
+    useEffect( () => { 
+        getBoardCount();
+    }, []);
+ 
+
+    useEffect( () => { 
+        getFreeBoard();
+    
+    }, [page]);
+
+
+
     const { cpage,  pageNum , boardName } = page;
     
 
 
 
     return(
-        <div className="freeBoardBox" >
-            <div className="freeBoardTitle" >
+        <div className="boardBox" >
+            <div className="boardTitle" >
                 자유게시판
             </div>
 
             
 
-            <FreeBoardTable memInfo={props.memInfo}  freeboardContent={freeboardContent} />
+            <BoardTable memInfo={props.memInfo}  boardContent={freeboardContent} />
 
-            <div className="freeBoardBottom">
-                <Link className="freeBoardAdd" to="/board/free_board_add">게시글 작성</Link>
+            <div className="boardBottom">
+                <Link className="boardAdd" to="/board/free_board_add">게시글 작성</Link>
 
             </div>
 
 
+            <BoardPage  page={page}  pageMove={pageMove}  />
 
         </div>
         

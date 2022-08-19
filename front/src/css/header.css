@@ -1,3 +1,9 @@
+
+
+
+
+
+
 .header{
     width : calc(100% - 20px);
     padding : 10px;
@@ -116,3 +122,76 @@
     display:block;
 }
 
+@media screen and (max-width: 700px) {
+
+
+    .header{
+        width : calc(100% - 20px);
+        padding : 5px;
+    }
+    
+    .header  .headerRight{
+        display:inline-block;
+        width : calc(50% - 25px);
+        vertical-align: top;
+    }
+    
+    .header  .menuBox{
+        width :100%;
+        display: inline-flex;
+        overflow: auto;
+        padding : 10px 5px;
+    }
+    
+    
+    .header  .menuBox .menu{
+        font-size  : 15px;
+        text-align: center;
+        padding : 10px 5px;
+        display: inline-block;
+
+        flex : none;
+        position : relative;
+    }
+    
+    
+    
+    
+    
+
+    
+    .header .menuMember{
+        vertical-align: top;
+        width : calc(50% - 25px);
+        display: inline-block;
+        text-align: center;
+    }
+    
+    
+    .header .menuBox .subMenuBox{
+        position : fixed;
+        background-color  :azure;
+        text-align: center;
+        border : 1px solid black;
+        top : 50px;
+        left : 0px;
+        display: inline-flex;
+        display: none;
+        z-index : 1;
+    
+    }
+    
+
+    
+    .header .menuBox .subMenuBox .subMenu{
+        padding : 10px; 
+        display : inline-block;
+        width: auto;
+        text-decoration: none;
+        color : black;
+    }
+
+    
+
+
+}
