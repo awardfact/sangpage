@@ -30,6 +30,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
             writerNm : obj['memInfo.name'] ,
             password : '' ,
             memNo :  Number(obj['memInfo.memNo']) ,
+            hit :  0 ,
         });
 
         res.send('' + inserId.boardNo);
@@ -48,6 +49,7 @@ router.post("/", upload.single('content.file')  , async  (req, res) => {
             writerNm : obj['content.id'] ,
             password : encryptedPassowrd ,
             memNo : null ,
+            hit :  0 ,
         });
         res.send('' + inserId.boardNo);
     }

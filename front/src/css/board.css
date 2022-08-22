@@ -390,6 +390,15 @@
     .boardReadBox .boardReadBottom{
         font-size : 12px;
     }
+
+
+    .boardReadBox .boardReadBottom .boardHit{
+        font-size : 12px;
+        float : left;
+        margin-left :10px;
+    }
+
+
     .memoBox{
         padding : 10px;
     }

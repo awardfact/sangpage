@@ -45,6 +45,7 @@ function BoardTable(props){
                     <TableCell >게시글 이름</TableCell>
                     <TableCell>게시글 작성자</TableCell>
                     <TableCell>게시글 작성시간</TableCell>
+                    <TableCell>조회수</TableCell>
                 </TableRow>
             </TableHead> 
             <TableBody>
@@ -63,6 +64,7 @@ function BoardTable(props){
                             </TableCell>
                             <TableCell>{c.writerNm}</TableCell>
                             <TableCell>{c.createdAt.split('T')[0]}</TableCell>
+                            <TableCell>{c.hit}</TableCell>
                     </TableRow>
                     );
                 }) :<TableRow ></TableRow> }

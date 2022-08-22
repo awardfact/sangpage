@@ -91,6 +91,7 @@ function BoardReading(props){
 
 
             <div className="boardReadBottom">
+            <div className="boardHit">조회수 : {props.boardContent.hit}</div>
                 <Link className="board_read_link" to="/board/update_board" >글 목록</Link>
 
                 { props.boardSet.isAdmin === 1 || props.boardSet.isWriter === 1 ? 
@@ -234,19 +235,6 @@ function UpdateBoardRead(props){
             return false;
         }
 
-
-        if(!props.memInfo){
-            if(!boardContent.writerNm){
-                alert('아이디 입력해주세요.');
-                idRef.current.focus();
-                return false;
-            }
-            if(!boardContent.password){
-                alert('패스워드 입력해주세요.');
-                passwordRef.current.focus();
-                return false;
-            }
-        }
 
 
         

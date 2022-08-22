@@ -90,6 +90,7 @@ function FreeBoardReading(props){
 
 
             <div className="boardReadBottom">
+                <div className="boardHit">조회수 : {props.boardContent.hit}</div>
                 <Link className="board_read_link" to="/board/free_board" >글 목록</Link>
 
                 { props.boardSet.isAdmin === 1 || props.boardSet.isWriter === 1 ? 

@@ -174,7 +174,17 @@ router.get("/read"   , async  (req, res) => {
         });
     
 
+        if(users){
+            const hit = await Board.update({ 
+                hit : users.dataValues.hit  + 1,
+            },{
+                where: {
+                    boardNo: req.query.boardNo
+                }
+            }
         
+            );
+        }
        /* users.dataValues.memo = await Memo.findAll({
             where: {
                 boardNo: req.query.boardNo,

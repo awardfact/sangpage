@@ -60,6 +60,10 @@ module.exports = class Board extends Sequelize.Model {
             allowNull: true,
   
           },
+          hit: {
+            type: Sequelize.INTEGER ,
+            allowNull: false,
+        },
       }, {
         sequelize,
         timestamps: true,

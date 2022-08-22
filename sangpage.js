@@ -38,6 +38,14 @@ const router = express.Router();
 // const MemberUpdate = require("./router/member/MemberUpdate");
 // const CommonRouter = require("./router/Common");
 
+
+//크론
+const cron = require('node-cron');
+
+const cronController = require('./controller/cronController')
+
+
+
 const indexRouter = require("./router/indexRouter");
 
 
@@ -92,45 +100,13 @@ app.use("/", indexRouter);
 
 
 http.createServer(app).listen(port, ()=>{
-    console.log(`listening on port ${port}`);
-});
-
-//app.set('port' , process.env.PORT || 4000);
-
-app.get('/member/customers' , (req,res) =>{
-    connection.query(
-      "SELECT * from CUSTOMER where isDeleted = 0" , (err,rows, fields) =>{
-        res.send(rows);
-      });
 });
 
 
+cron.schedule('0 0 6,12,18,0 * * * ' , ()=>{
 
+  cronController.exchangeCron();
 
-app.post('/api/customers' , upload.single('image'), (req,res) =>{
- 
-  let sql = "INSERT INTO CUSTOMER VALUES (null , ? , ? , ? , ? , ? , 0 , now() ) ";
-
-  let image = '/image/' + req.file.filename;
-  let name = req.body.name;
-  let birthday = req.body.birthday;
-  let gender = req.body.gender;
-  let job = req.body.job;
-  let params = [image, name, birthday , gender , job];
-
-  connection.query(sql, params, (err,row,fields)=>{
-    res.send(row);
-  });
-
-});
-
-app.delete('/api/customers/:id' , (req,res) =>{
-  let sql = "UPDATE CUSTOMER SET isDeleted = 1 where id = ?";
-  let params = [req.params.id];
-
-    connection.query(sql, params, (err,rows,fields) =>{
-    res.send(rows);
-  });
 
 });
 
