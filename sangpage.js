@@ -103,7 +103,7 @@ http.createServer(app).listen(port, ()=>{
 });
 
 
-cron.schedule('0 0 6,12,18,0 * * * ' , ()=>{
+cron.schedule('0 0 * * * * ' , ()=>{
 
   cronController.exchangeCron();
 
