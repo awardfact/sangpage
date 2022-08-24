@@ -6,10 +6,12 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 
 const requestIp = require('request-ip');
-const request = require('sync-request');
+const request = require('request');
 const axios = require('axios');
 const convert = require('xml2js');
 const convert2 = require('xml-js');
+const urlencode = require('urlencode'); 
+
 const moment = require('moment');
 require('moment-timezone');
 
@@ -30,9 +32,42 @@ router.get("/", async  (req, res) => {
 
     });
     const xy = dfs_xy_conv("toXY",req.query.lat,req.query.long);
+    let serviceKey = 'Te1N8riSKHCb56JPmYz%2BwR0MmwVDBT0JlH%2BiFyjRMc2%2FE7vEc6sEYxM4U6bkPMKji976D5zHuns0XabR25m%2F%2BA%3D%3D';
 
+    // let covidUrl = `http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?`;
+    // covidUrl += encodeURIComponent('serviceKey') + '='+'XvsgAIs0EusRoN8Ym6a/soVkRM8hm3bez0Bp9BW8zWWhpNwzPcPwSIJ84Qnir34cdKL2K4RyKi1HGOUtZGqYzg==';
+    // covidUrl += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
+    // covidUrl +='&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10');
+    // covidUrl += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(currentDay);
+    // covidUrl += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(currentDay);
 
-    exchangeUrl =  `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?numOfRows=20&serviceKey=XvsgAIs0EusRoN8Ym6a%2FsoVkRM8hm3bez0Bp9BW8zWWhpNwzPcPwSIJ84Qnir34cdKL2K4RyKi1HGOUtZGqYzg%3D%3D&base_date=${currentDay}&base_time=${currentTime}&nx=${xy.x}&ny=${xy.y}`
+    var covidUrl = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
+    var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey; /* Service Key*/
+    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+    queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
+    queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20200315'); /* */
+
+    console.log(covidUrl + queryParams);
+
+    request({
+        url: covidUrl + queryParams,
+        method: 'GET'
+    }, function (error, response, body) {
+        //console.log('Status', response.statusCode);
+        //console.log('Headers', JSON.stringify(response.headers));
+        console.log('Reponse received', body);
+    });
+
+    
+    // serviceKey=${covidAuthKey}&startCreateDt=${currentDay}&endCreateDt=${currentDay}`;
+    //let covidTmp = await axios.get(covidUrl + queryParams);
+    //console.log(covidUrl);
+    //console.log(covidTmp);
+
+    //const covidJson = convert2.xml2json(covidTmp.data, { compact: true, spaces: 4 });
+
+    exchangeUrl =  `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?numOfRows=20&serviceKey=${serviceKey}&base_date=${currentDay}&base_time=${currentTime}&nx=${xy.x}&ny=${xy.y}`
 //    location = request('GET', exchangeUrl);
     let locationTmp = await axios.get(exchangeUrl);
 
@@ -43,8 +78,7 @@ router.get("/", async  (req, res) => {
 
 
     let locationStatus = JSON.parse(locationJson).response.header.resultMsg._text;
-    console.log(exchangeUrl);
-    console.log(locationStatus);
+
     if(locationStatus == 'NORMAL_SERVICE'){
         const location = JSON.parse(locationJson).response.body.items.item;
 

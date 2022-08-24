@@ -43,6 +43,7 @@
     "sequelize-cli": "^6.4.1",
     "store": "^2.0.12",
     "sync-request": "^6.1.0",
+    "urlencode": "^1.1.0",
     "xml-js": "^1.6.11",
     "xml2js": "^0.4.23"
   },
