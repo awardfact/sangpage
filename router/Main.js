@@ -42,7 +42,7 @@ router.get("/", async  (req, res) => {
     // covidUrl += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(currentDay);
 
     var covidUrl = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
-    var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey; /* Service Key*/
+    var queryParams = '?' + encodeURIComponent('serviceKey') + '='  + serviceKey; /* Service Key*/
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
     queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
     queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
@@ -74,19 +74,16 @@ router.get("/", async  (req, res) => {
 
     const locationJson = convert2.xml2json(locationTmp.data, { compact: true, spaces: 4 });
 
-
-
-
     let locationStatus = JSON.parse(locationJson).response.header.resultMsg._text;
 
-    if(locationStatus == 'NORMAL_SERVICE'){
-        const location = JSON.parse(locationJson).response.body.items.item;
+ 
 
+
+    if(locationStatus == 'NORMAL_SERVICE'){
+        let location = JSON.parse(locationJson).response.body.items.item;
         res.send({exchange : exchange , location : location});
     }else{
-
         res.send({exchange : exchange });
-
     }
 
         //let tmp = JSON.parse(locationJson).response.body.items;        
