@@ -26,6 +26,7 @@ router.get("/", async  (req, res) => {
     }
 
     
+    console.log(req.session.sangpageMemNo);
 
     if(req.session.sangpageMemNo){
 
@@ -48,6 +49,8 @@ router.get("/", async  (req, res) => {
         });
         res.send(users);
     
+    }else{
+        res.send(false);
     }
 
 

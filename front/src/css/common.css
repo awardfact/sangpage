@@ -81,3 +81,30 @@
     width : calc(100% - 30px);
     height : 350px;
 }
+
+
+@media screen and (max-width: 700px) {
+    .mainBox{
+        width : calc(100% -20px);
+        padding : 10px;
+        height : 500px;
+        position : relative;
+    }
+    
+    .mainWeather{
+        padding : 5px;
+        text-align: center;
+        margin-top : 10px;
+        font-size : 15px;
+    
+    }
+
+        
+    .mapBox .map{
+        width : calc(100% - 10px);
+        height : 350px;
+    }
+
+
+
+}

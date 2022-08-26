@@ -41,23 +41,23 @@ router.get("/", async  (req, res) => {
     // covidUrl += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(currentDay);
     // covidUrl += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(currentDay);
 
-    var covidUrl = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
-    var queryParams = '?' + encodeURIComponent('serviceKey') + '='  + serviceKey; /* Service Key*/
-    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
-    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
-    queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
-    queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20200315'); /* */
+    // var covidUrl = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
+    // var queryParams = '?' + encodeURIComponent('serviceKey') + '='  + serviceKey; /* Service Key*/
+    // queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+    // queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+    // queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
+    // queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20200315'); /* */
 
-    console.log(covidUrl + queryParams);
+    // console.log(covidUrl + queryParams);
 
-    request({
-        url: covidUrl + queryParams,
-        method: 'GET'
-    }, function (error, response, body) {
-        //console.log('Status', response.statusCode);
-        //console.log('Headers', JSON.stringify(response.headers));
-        console.log('Reponse received', body);
-    });
+    // request({
+    //     url: covidUrl + queryParams,
+    //     method: 'GET'
+    // }, function (error, response, body) {
+    //     //console.log('Status', response.statusCode);
+    //     //console.log('Headers', JSON.stringify(response.headers));
+    //     console.log('Reponse received', body);
+    // });
 
     
     // serviceKey=${covidAuthKey}&startCreateDt=${currentDay}&endCreateDt=${currentDay}`;
@@ -71,10 +71,14 @@ router.get("/", async  (req, res) => {
 //    location = request('GET', exchangeUrl);
     let locationTmp = await axios.get(exchangeUrl);
 
-
+    let locationStatus = null;
     const locationJson = convert2.xml2json(locationTmp.data, { compact: true, spaces: 4 });
 
-    let locationStatus = JSON.parse(locationJson).response.header.resultMsg._text;
+    if(locationJson){
+        locationStatus = JSON.parse(locationJson).response.header.resultMsg._text;
+    }else{
+        locationStatus = 'error';
+    }
 
  
 
@@ -85,7 +89,6 @@ router.get("/", async  (req, res) => {
     }else{
         res.send({exchange : exchange });
     }
-
         //let tmp = JSON.parse(locationJson).response.body.items;        
 
 

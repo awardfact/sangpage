@@ -33,6 +33,9 @@ router.post("/", async  (req, res) => {
 
             sess = req.session;
             sess.sangpageMemNo = users.memNo;
+
+            
+            console.log(sess.sangpageMemNo);
     
         }
     

@@ -1,4 +1,4 @@
-
+/* global kakao */
 import React , {useEffect, useState , Component ,useRef} from 'react';
 import axios ,{post } from 'axios';
 
@@ -207,19 +207,24 @@ function Main(props){
     const [location , setLocation]  = useState();
 
     const mapRef= useRef(null);
-
+    const container = useRef();
 
     // 카카오지도를 그려주는 함수 
     const printMap = () =>{
         let container = document.getElementById("map");
         //var container = mapRef;
-        console.log(location);
+
+
+
+
         var options = { //지도를 생성할 때 필요한 기본 옵션
             center: new kakao.maps.LatLng(location ?  location.lat : 33.450701,location ?  location.long : 126.570667), //지도의 중심좌표.
             level: 3 //지도의 레벨(확대, 축소 정도)
         };
-        
+
+
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
 
 
         //지도에 컨트롤 올리기
@@ -240,137 +245,146 @@ function Main(props){
         marker.setMap(map);
 
 
-        var iwContent = '<div class="mainWeatherMap" style="margin-top : 0px;">'; 
-        iwContent += '<div >현재날씨</div>'; 
-        weather.forEach((e)=>{
-            switch(e.category._text){
-                case 'T1H'  :
-                    iwContent +=   "<div key={e.category._text}>현재기온 : " + e.obsrValue._text + "도</div>";
-                break;
-                case 'VEC'  :
+        if(weather){
 
-                    switch(parseInt(e.obsrValue._text / 22.5)){
-
-                        case 0 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 북 </span>";
-                        break;
-                        case 1 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 북북동 </span>";
-                        break;
-                        case 2 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 북동 </span>";
-                        break;
-                        case 3 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 동북동 </span>";
-                        break;
-                        case 4 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 동 </span>";
-                        break;
-                        case 5 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 동남동 </span>";
-                        break;
-                        case 6 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 남동 </span>";
-                        break;
-                        case 7 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 남남동 </span>";
-                        break;
-                        case 8 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 남 </span>";
-                        break;
-                        case 9 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 남남서 </span>";
-                        break;
-                        case 10 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 남서 </span>";
-                        break;
-                        case 11 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 서남서 </span>";
-                        break;
-                        case 12 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 서 </span>";
-                        break;
-                        case 13 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 서북서 </span>";
-                        break;
-                        case 14 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 북서 </span>";
-                        break;
-                        case 15 :
-                            iwContent +=  "<span key={e.category._text} > 풍향 : 북북서 </span>";
-                        break;
-                    }
-                break;
-                case 'WSD'  :
-                    iwContent += "<span key=" +e.category._text + "> 풍속 : "+ e.obsrValue._text+"m/s </span>";    
-                break;
-                case 'SKY'  :
-                    switch(parseInt(e.obsrValue._text)){
-
-                        case 1 :
-                            iwContent += "<span key="+e.category._text+"> 맑음 </span>";
-                        break;
-                        case 2 :
-                            iwContent += "<span key="+e.category._text+"> 구름조금 </span>";
-                        break;
-                        case 3 :
-                            iwContent += "<span key="+e.category._text+"> 구름많음 </span>";  
-                        break;
-                        case 4 :
-                            iwContent += "<span key="+e.category._text+"> 흐림 </span>";  
-                        break;
-                    }
+            var iwContent = '<div class="mainWeatherMap" style="margin-top : 0px;">'; 
+            iwContent += '<div >현재날씨</div>'; 
+            weather.forEach((e)=>{
+                switch(e.category._text){
+                    case 'T1H'  :
+                        iwContent +=   "<div key={e.category._text}>현재기온 : " + e.obsrValue._text + "도</div>";
+                    break;
+                    case 'VEC'  :
     
-                break;
-                case 'PTY'  :
-                    switch(parseInt(e.obsrValue._text)){
-                       
-                        case 1 :
-                            iwContent += "<span key="+e.category._text+"> 비 </span>";
-                        break;
-                        case 2 :
-                            iwContent += "<span key="+e.category._text+"> 비/눈 </span>";
-   
-                        break;
-                        case 3 :
-                            iwContent += "<span key="+e.category._text+"> 눈 </span>"; 
-                        break;
-                        case 5 :
-                            iwContent += "<span key="+e.category._text+"> 빗방울 </span>";   
-                        break;
-                        case 6 :
-                            iwContent += "<span key="+e.category._text+"> 빗방울눈날림 </span>"; 
-                        break;
-                        case 7 :
-                            iwContent += "<span key="+e.category._text+"> 눈날림 </span>";
-                        break;
-                    }
-                break;
-                case 'POP'  :
-                    iwContent += "<span key="+e.category._text+"> 강수확률 : "+e.obsrValue._text+"% </span>";    
-                break;
-                case 'WAV'  :
-                    iwContent += "<span key="+e.category._text+"> 파고 : "+e.obsrValue._text+"M </span>";                
-                break;
-                case 'RN1'  :
-                    iwContent += "<span key="+e.category._text+"> 강수량 : "+e.obsrValue._text+"mm </span>";           
-                break;
-                case 'REH'  :
-                    iwContent += "<span key="+e.category._text+"> 습도 : "+e.obsrValue._text+"% </span>";                
-                break;
-                case 'SNO'  :
-                    iwContent += "<span key="+e.category._text+"> 적설량 : "+e.obsrValue._text+"cm </span>";                
-                break;
-            }
-        });
-        iwContent += '</div>'; 
-            
-        // 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content : iwContent
-        });
+                        switch(parseInt(e.obsrValue._text / 22.5)){
+    
+                            case 0 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 북 </span>";
+                            break;
+                            case 1 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 북북동 </span>";
+                            break;
+                            case 2 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 북동 </span>";
+                            break;
+                            case 3 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 동북동 </span>";
+                            break;
+                            case 4 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 동 </span>";
+                            break;
+                            case 5 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 동남동 </span>";
+                            break;
+                            case 6 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 남동 </span>";
+                            break;
+                            case 7 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 남남동 </span>";
+                            break;
+                            case 8 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 남 </span>";
+                            break;
+                            case 9 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 남남서 </span>";
+                            break;
+                            case 10 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 남서 </span>";
+                            break;
+                            case 11 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 서남서 </span>";
+                            break;
+                            case 12 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 서 </span>";
+                            break;
+                            case 13 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 서북서 </span>";
+                            break;
+                            case 14 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 북서 </span>";
+                            break;
+                            case 15 :
+                                iwContent +=  "<span key={e.category._text} > 풍향 : 북북서 </span>";
+                            break;
+                        }
+                    break;
+                    case 'WSD'  :
+                        iwContent += "<span key=" +e.category._text + "> 풍속 : "+ e.obsrValue._text+"m/s </span>";    
+                    break;
+                    case 'SKY'  :
+                        switch(parseInt(e.obsrValue._text)){
+    
+                            case 1 :
+                                iwContent += "<span key="+e.category._text+"> 맑음 </span>";
+                            break;
+                            case 2 :
+                                iwContent += "<span key="+e.category._text+"> 구름조금 </span>";
+                            break;
+                            case 3 :
+                                iwContent += "<span key="+e.category._text+"> 구름많음 </span>";  
+                            break;
+                            case 4 :
+                                iwContent += "<span key="+e.category._text+"> 흐림 </span>";  
+                            break;
+                        }
+        
+                    break;
+                    case 'PTY'  :
+                        switch(parseInt(e.obsrValue._text)){
+                           
+                            case 1 :
+                                iwContent += "<span key="+e.category._text+"> 비 </span>";
+                            break;
+                            case 2 :
+                                iwContent += "<span key="+e.category._text+"> 비/눈 </span>";
+       
+                            break;
+                            case 3 :
+                                iwContent += "<span key="+e.category._text+"> 눈 </span>"; 
+                            break;
+                            case 5 :
+                                iwContent += "<span key="+e.category._text+"> 빗방울 </span>";   
+                            break;
+                            case 6 :
+                                iwContent += "<span key="+e.category._text+"> 빗방울눈날림 </span>"; 
+                            break;
+                            case 7 :
+                                iwContent += "<span key="+e.category._text+"> 눈날림 </span>";
+                            break;
+                        }
+                    break;
+                    case 'POP'  :
+                        iwContent += "<span key="+e.category._text+"> 강수확률 : "+e.obsrValue._text+"% </span>";    
+                    break;
+                    case 'WAV'  :
+                        iwContent += "<span key="+e.category._text+"> 파고 : "+e.obsrValue._text+"M </span>";                
+                    break;
+                    case 'RN1'  :
+                        iwContent += "<span key="+e.category._text+"> 강수량 : "+e.obsrValue._text+"mm </span>";           
+                    break;
+                    case 'REH'  :
+                        iwContent += "<span key="+e.category._text+"> 습도 : "+e.obsrValue._text+"% </span>";                
+                    break;
+                    case 'SNO'  :
+                        iwContent += "<span key="+e.category._text+"> 적설량 : "+e.obsrValue._text+"cm </span>";                
+                    break;
+                }
+            });
+            iwContent += '</div>'; 
+                
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content : iwContent
+            });
+    
+            infowindow.open(map,marker);
 
-        infowindow.open(map,marker);
+
+
+
+
+        }
+
         let markerOpen = 1;
 
         // 마커에 클릭이벤트를 등록합니다
@@ -401,10 +415,7 @@ function Main(props){
         }
         ).then(function (response) {
 
-            // if(response.data.location){
-            //     response.data.location.forEach((key, index) =>{
-            //     });
-            // }
+
             
 
             setWeather(response.data.location);
@@ -413,6 +424,7 @@ function Main(props){
 
         }).catch(function (error) {
         //  console.log(error);
+            alert(error);
         });
 
 
@@ -430,7 +442,7 @@ function Main(props){
                 lat : position.coords.latitude,
             });
         });
-    }, []);
+    }, [container]);
 
 
     //위치정보가 변경되면 데이터들을 불러옴 
@@ -438,9 +450,7 @@ function Main(props){
 
        getMainInfo();
 
-       if(location){
-        //printMap();
-       }
+
 
 
    }, [location]);
@@ -461,7 +471,11 @@ function Main(props){
 
 
     return(
-        <div className="mainBox">
+
+        <>
+        {props ? 
+            <>
+            <div className="mainBox" ref={container}>
 
             <div className="exchangeBox">
                 <div className="exchangeBoxTitle">세계 환율 ({exchangeDate})</div>
@@ -473,7 +487,7 @@ function Main(props){
                             <span key={e.sno}>
                                 {e.curNm}({e.curUnit}) = {e.dealBars}(KRW)
                             </span>
-                               
+                                
                         )})
                     : "" }
                         </span>
@@ -484,7 +498,16 @@ function Main(props){
                     <Map mapRef={mapRef} />
                 </div>
             </div>
-        </div>
+            </div>  
+
+        </>
+
+            
+        : ""}
+        
+        </>
+
+
     );
 }
 

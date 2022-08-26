@@ -27,8 +27,13 @@ router.post("/", async  (req, res) => {
 
 
     if(users){
+
+
         sess = req.session;
         sess.sangpageMemNo = users.memNo;
+
+        console.log(sess.sangpageMemNo);
+
         res.send('login');
 
 
@@ -48,8 +53,12 @@ router.post("/", async  (req, res) => {
      
         });
 
+
         sess = req.session;
         sess.sangpageMemNo = inserId.memNo;
+
+        console.log(sess.sangpageMemNo);
+        
         res.send('join');
 
     }
