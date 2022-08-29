@@ -1,0 +1,30 @@
+ci/cd로 쿠버네티스를 사용할 수 없어서 젠킨스를 이용하려고 함
+
+젠킨스 포트가 8080인데 현제 노드에서 사용하고 있는 포트가 8080이여서 노드 포트를 8888로 변경 
+
+젠킨스 설치 
+sudo apt-get update
+sudo apt install openjdk-11-jre
+
+java -version
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+  sudo apt-get update
+
+  sudo apt-get install jenkins
+
+  다 설치되면
+
+   sudo systemctl enable jenkins
+
+
+  ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080 들어가면 패스워드 입력하는 창이 나옴
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword 로 패스워드를 얻은다음에 입력하면 젠킨스 실행이 진행
+
+젠킨스 설치 후 젠킨스에 대해 공부

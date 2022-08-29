@@ -48,7 +48,7 @@ EXPOSE 8080
 
 sudo chmod 666 /var/run/docker.sock  도커파일 빌드하면 퍼미션 디나이 떠서 권한 설정
 
-docker build -t sangpage_dk:1.0 .   // 도커파일 빌드 
+docker build -t awardfact/sangpage:1.0 .   // 도커파일 빌드 
 
 aws 리부팅해서 도커 컨테이너가 꺼졌으면 docker restart 컨테이너아이디 입력하면된다 
 
@@ -66,21 +66,19 @@ git clone https://github.com/awardfact/sangpage
 
 npm install    //ec2서버에 세팅해주고 도커 실행 
 
-docker run  -p 8080:8080 -v /home/ubuntu/sangpage:/sangpage sangpage_dk:1.0 도커 빌드  근데 마운트 하는건데 현재 폴더가 없어서 실행이 안되는거 같아서 sangpage만들어줌
+docker run -p 8888:8888 -v /home/ubuntu/sangpage:/sangpage /awardfact/sangpage:1.0 도커 빌드  근데 마운트 하는건데 현재 폴더가 없어서 실행이 안되는거 같아서 sangpage만들어줌
 
 데이터베이스는 aws rds를 이용
 
 
-
-젠킨스 설치 
-docker pull jenkins/jenkins:lts
 
 
 
 docker run -d -p 8444:8080 -v /home/jenkins:var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -u root jenkins/jenkins:lts
 젠킨스 실행 
 
-젠킨스는 cpu터져서 포기
+//젠킨스는 cpu터져서 포기
+
 
 
 
@@ -93,3 +91,42 @@ pm2 start yarn -- dev
 aws 재시작했을때
 sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 이거 실행해줘야함
+
+
+
+docker 이미지 만든거 도커허브에 푸시하려면 태그에 아이디가 들어가야 해서
+도커 로그인 후 
+도커 이미지 태그명 변경
+docker tag sangpage_dk awardfact/sangpage
+그리고 도커 이미지 푸쉬
+docker push awardfact/sangpage
+
+
+
+
+젠킨스 설치 
+sudo apt-get update
+sudo apt install openjdk-11-jre
+
+java -version
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+  sudo apt-get update
+
+  sudo apt-get install jenkins
+
+  다 설치되면
+
+   sudo systemctl enable jenkins
+
+
+  ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080 들어가면 패스워드 입력하는 창이 나옴
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword 로 패스워드를 얻은다음에 입력하면 젠킨스 실행이 진행
+
+http://ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080/  여기로 들어가면 젠킨스 실행

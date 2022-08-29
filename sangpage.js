@@ -7,7 +7,7 @@ const session = require('express-session');
 
 const app = express();
 const fs = require('fs');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8888;
 
 
 //multer선언 이미지 업로드하면 이름을 겹치지 않게 해준다 
