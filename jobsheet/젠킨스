@@ -30,7 +30,8 @@
 
 sdk 설정
 
-git 설정
+git 깃은 젠킨스 관리 ->  configration system -> Github쪽 name은 알맞게 입력하고 credentails을 등록한다 
+kind는 secret text로 하고 userName은 깃 아이디 secret은 깃에서 발급받은 키를 입력해준다 
 
 maven 설정
 
@@ -42,6 +43,13 @@ sdk랑 maven은 강의가 자바여서 설정이 필요간것일수도 있음
 
 
 플러그인 관리에서 원하는 플러그인을 다운받아서 사용할 수 있다 
+
+
+플러그인에서 nodejs를 다운받고 
+젠킨스 관리 ->  global tool configration에 노드 js add하고 이름 아무렇게나 입력하고 버전 맞는 노드 선택하고 저장 
+
+깃허브에서 웹훅 생성 
+
 
 </젠킨스 설정>
 

@@ -66,7 +66,7 @@ git clone https://github.com/awardfact/sangpage
 
 npm install    //ec2서버에 세팅해주고 도커 실행 
 
-docker run -p 8888:8888 -v /home/ubuntu/sangpage:/sangpage /awardfact/sangpage:1.0 도커 빌드  근데 마운트 하는건데 현재 폴더가 없어서 실행이 안되는거 같아서 sangpage만들어줌
+docker run -p 8888:8888 -v /home/ubuntu/sangpage:/sangpage awardfact/sangpage:1.0 도커 빌드  근데 마운트 하는건데 현재 폴더가 없어서 실행이 안되는거 같아서 sangpage만들어줌
 
 데이터베이스는 aws rds를 이용
 
@@ -74,7 +74,8 @@ docker run -p 8888:8888 -v /home/ubuntu/sangpage:/sangpage /awardfact/sangpage:1
 
 
 
-docker run -d -p 8444:8080 -v /home/jenkins:var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -u root jenkins/jenkins:lts
+docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -u root jenkins/jenkins:lts
+docker run -itd -p 8080:8080 -v /jenkins:/var/lib/jenkins –name jenkins -u root jenkins/jenkins:lts
 젠킨스 실행 
 
 //젠킨스는 cpu터져서 포기
@@ -130,3 +131,4 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword 로 패스워드를 얻은다음에 입력하면 젠킨스 실행이 진행
 
 http://ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080/  여기로 들어가면 젠킨스 실행
+ 
