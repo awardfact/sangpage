@@ -71,11 +71,12 @@ docker run -p 8888:8888 -v /home/ubuntu/sangpage:/sangpage awardfact/sangpage:1.
 데이터베이스는 aws rds를 이용
 
 
+//docker run -u root –rm -d -p 8080:8080 -p 50000:50000 –name myjenkin -v $(which docker):/usr/bin/docker -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts
+//docker run -itd --name jenkins -p 8080:8080 -p 50000:50000 -v /docker/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -e TZ=Asia/Seoul -u root jenkins/jenkins:lts
 
+//docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -v /var/run/docker.sock:/var/run/docker.sock  -u root jenkins/jenkins:lts
 
-
-docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -u root jenkins/jenkins:lts
-docker run -itd -p 8080:8080 -v /jenkins:/var/lib/jenkins –name jenkins -u root jenkins/jenkins:lts
+docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -v /var/run/docker.sock:/var/run/docker.sock -v  /usr/bin/docker:/usr/bin/docker  -u root jenkins/jenkins:lts
 젠킨스 실행 
 
 //젠킨스는 cpu터져서 포기
@@ -123,7 +124,9 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 
   다 설치되면
 
-   sudo systemctl enable jenkins
+sudo service jenkins start
+sudo service jenkins status
+sudo service jenkins stop
 
 
   ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080 들어가면 패스워드 입력하는 창이 나옴

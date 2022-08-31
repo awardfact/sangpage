@@ -1,0 +1,14 @@
+jenkins 안에 docker를 동작하게 해야해서 
+
+docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -v /var/run/docker.sock:/var/run/docker.sock  -u root jenkins/jenkins:lts
+했는데 dockr not found떠서 
+
+docker run -d -p 8080:8080 -v /home/jenkins:/var/lib/jenkins  -v /var/run/docker.sock:/var/run/docker.sock -v  /usr/bin/docker:/usr/bin/docker  -u root jenkins/jenkins:lts
+이렇게도 해봤는데 
+docker: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found (required by docker)
+docker: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.34' not found (required by docker)
+이런 오류가 나와서 젠킨스에서 도커를 빌드하지 못하고 있음 
+
+도커에서 젠킨스를 사용 안하고 그냥 리눅스에서 젠킨스 사용
+
+젠킨스에 다시 git 등록하고 테스트 용으로 dockerhub에 등록한 도커파일 빌드 ㄴ
