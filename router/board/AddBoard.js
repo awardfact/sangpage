@@ -7,7 +7,7 @@ const fs = require('fs');
 
 //multer선언 이미지 업로드하면 이름을 겹치지 않게 해준다 
 const multer = require('multer');
-const upload = multer({dest : './front/public/image/board'});
+const upload = multer({dest : '../../../front/public/image/board'});
 
 
 /*

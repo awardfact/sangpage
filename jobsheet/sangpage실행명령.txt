@@ -129,9 +129,9 @@ sudo service jenkins status
 sudo service jenkins stop
 
 
-  ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080 들어가면 패스워드 입력하는 창이 나옴
+ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080 들어가면 패스워드 입력하는 창이 나옴
 
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword 로 패스워드를 얻은다음에 입력하면 젠킨스 실행이 진행
 
-http://ec2-43-200-51-217.ap-northeast-2.compute.amazonaws.com:8080/  여기로 들어가면 젠킨스 실행
+  여기로 들어가면 젠킨스 실행
  
