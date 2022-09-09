@@ -1,0 +1,268 @@
+
+.joinStartBox{
+    padding : 15px;
+}
+
+.joinStartBox .agreeBox{
+    padding: 10px;
+}
+
+
+.joinStartBox .agreeBox .agreeContent .agreeText{
+    width : calc(100% - 20px);
+    padding : 10px;
+    font-size : 12px;
+    text-align: left;
+    background : #f1eaea;
+    border : 1px solid black;
+    height : 50px;
+    overflow-y : auto;
+    margin-bottom : 5px;
+}
+
+.joinStartBox .agreeBox .agreeContent .agreeCheck{
+    text-align: right;
+    margin :5px 20px 5px 0px;
+    
+}
+
+
+.joinStartBox .agreeBox .agreeContent .agreeCheck input{
+    position: absolute;
+    margin-top : -1px;
+}
+
+.joinStartBox .joinStartBtnBox{
+    padding : 15px;
+    width : calc(100% - 30px);
+}
+
+
+.joinStartBox .joinStartBtnBox .joinPage{
+    padding : 15px; 
+    text-align: center;
+    font-size: 15px;
+    background: #4c72ff;
+    text-decoration: none;
+    display: inline-block;
+    width : calc(50% - 60px);
+    margin : 0px 15px;
+    color : black;
+    font-weight: bold;
+}
+
+
+.joinStartBox .joinStartBtnBox .joinKakao{
+
+    padding : 15px; 
+    text-align: center;
+    font-size: 15px;
+    background: #FEE500;
+
+    text-decoration: none;
+    display: inline-block;
+    width : calc(50% - 60px);
+    margin : 0px 15px;
+    color : black;
+    font-weight: bold;
+}
+
+.joinBox{
+    padding : 20px; 
+    text-align: center;
+}
+
+.joinBox .joinContent{
+    margin : 10px 0px;
+}
+
+.joinBox .joinContent .joinInputTitle{
+    width : 55px;
+        display: inline-block;
+
+    text-align : left;
+}
+.joinBox .joinContent input{
+    border-radius: 20px;
+    width : 200px;
+    padding : 5px;
+    border : none;
+    background: #f1eaea;
+    margin-left : 5px;
+}
+.joinBox .joinContent select{
+    width : 210px;
+    border-radius: 20px;
+    border : none;
+    background: #f1eaea;
+    padding : 5px;
+    margin-left : 5px;
+}
+
+.joinBox .inputError{
+    margin-top: 5px;
+    color : red; 
+}
+.joinBox .joinBtnBox{
+    width : 400px;
+    margin : 20px auto;
+}
+.joinBox .joinBtnBox .joinBtn{
+    border-radius : 20px;
+    width : calc(50% - 40px);
+    margin : 0px 10px;
+    padding : 10px; 
+    display: inline-block;
+    background: red;
+    font-size : 15px;
+    border : none;
+    text-decoration: none;
+}
+
+
+.joinBox .joinBtnBox .joinCancelBtn{
+    border-radius : 20px;
+    width : calc(50% - 40px);
+    margin : 0px 10px;
+    padding : 10px; 
+    display: inline-block;
+    background: #f1eaea;
+    font-size : 15px;
+    border : none;
+    text-decoration: none;
+}
+
+
+.loginBox{
+    padding : 20px;
+    width : 50%;
+    margin : 30px auto;
+    background : #d3d3d32e;
+}
+.loginBox .joinContent{
+    margin : 10px auto;
+
+}
+.loginBox .loginInputContent{
+
+    margin : 10px 0px;
+    text-align: center;;
+}
+.loginBox .loginInputContent .joinInputTitle{
+
+    width : 55px;
+    display: inline-block;
+    text-align : left;
+}
+
+
+.loginBox .loginInputContent input{
+    border-radius: 20px;
+    width : 200px;
+    padding : 5px;
+    border : none;
+    background: #f1eaea;
+    margin-left : 5px;
+
+
+}
+
+.loginBox .loginBtnBox{
+    margin : 10px auto;
+    width : 80%;
+    text-align: center;
+}
+
+
+.loginBox .loginBtnBox .loginBtn{
+    padding : 10px;
+    width : calc(50% - 30px);
+    margin : 0px 5px;
+    background: #4c72ff;
+    font-size: 15px;
+    display: inline-block;
+}
+
+
+.loginBox .loginBtnBox .kakaoLoginBtn{
+    padding : 10px;
+    width : calc(50% - 30px);
+    background: #FEE500;
+    margin : 0px 5px;
+
+    font-size: 15px;
+    display: inline-block;
+}
+
+.mypageBox{
+    padding : 20px;
+    text-align: center;
+    
+}
+
+
+.mypageBox .mypageContent
+{
+    vertical-align: middle;
+    text-align : center;
+    font-size: 40px;
+    padding : 30px;
+}
+
+.mypageBox .mypageGrade{
+    text-align : center;
+    margin : 15px;
+    font-size: 20px;
+}
+
+.mypageBox .updateMember{
+    border : none;
+    font-size: 15px;
+    background-color: #4c72ff;
+    padding : 15px;
+    color : white;
+    text-decoration: none;
+    display: block;
+    width : 50%;
+    margin : 0 auto;
+
+}
+
+
+@media screen and (max-width: 700px) {
+    .loginBox{
+        width : calc(100% - 40px);
+    }
+
+    .loginBox .loginBtnBox{
+        width : 100%;
+    }
+
+    .loginBox .loginBtnBox .loginBtn{
+        font-size : 12px;
+    }
+
+    .joinStartBox .joinStartBtnBox{
+        padding : 0px;
+        width : 100%;
+    }
+
+    .loginBox .loginBtnBox .kakaoLoginBtn{
+        font-size: 12px;
+    }
+    .joinStartBox .joinStartBtnBox .joinPage{
+        width : calc(50% - 40px);
+        margin : 0px 5px;
+        font-size : 12px;
+    }
+    .joinStartBox .joinStartBtnBox .joinKakao{
+        width : calc(50% - 40px);
+        margin : 0px 5px;
+        font-size : 12px;
+    }
+
+
+    .joinBox .joinBtnBox{
+        width : 100%;
+    }
+}

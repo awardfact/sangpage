@@ -26,7 +26,8 @@ router.get("/", async  (req, res) => {
     }
 
     
-    console.log(req.session.sangpageMemNo);
+    console.log(__filename);
+    console.log(__dirname);
 
     if(req.session.sangpageMemNo){
 

@@ -1,0 +1,197 @@
+
+
+
+
+
+
+.header{
+    width : calc(100% - 20px);
+    padding : 10px;
+}
+
+.header  .headerRight{
+    display:inline-block;
+    width : calc(100% - 220px);
+    vertical-align: top;
+}
+
+.header  .menuBox{
+    width :100%;
+    display: flex;
+}
+
+
+.header  .menuBox .menu{
+    font-size  : 15px;
+    text-align: center;
+    padding : 17.5px 10px;
+    display: inline-block;
+    flex: 1;
+    position : relative;
+}
+
+
+
+
+
+
+.header  .logo{
+    display : inline-block;
+    height: 50px;
+    width : 50px;
+    background : url('/public/image/sangpage/sangpage.jpg') no-repeat; 
+    background-size : 100% 100%;
+}
+
+
+.header .menuMember{
+    vertical-align: top;
+    width : 150px;
+    display: inline-block;
+    text-align: center;
+}
+
+
+
+.header .menuMember .menuLogin{
+    width: calc(50% - 20px);
+    padding : 19px 10px;
+    display : inline-block;
+    color : black;
+    text-decoration: none;
+}
+
+
+.header .menuMember .menuJoin{
+    width: calc(50% - 20px);
+    padding : 19px 10px;
+    display : inline-block;
+    color : black;
+    text-decoration: none;
+}
+
+
+
+.header .menuMember .menuMypage{
+    width: calc(50% - 10px);
+    padding : 19px 5px;
+    display : inline-block;
+    color : black;
+    text-decoration: none;
+}
+
+
+
+
+.header .menuMember .menuLogout{
+    width: calc(50% - 10px);
+    padding : 19px 5px;
+    display : inline-block;
+    color : black;
+    text-decoration: none;
+    cursor : pointer;
+}
+
+
+
+.header .menuBox .subMenuBox{
+    position : absolute;
+    background-color  :azure;
+    text-align: center;
+    border : 1px solid black;
+    width : 100%;
+    top : 50px;
+    left : 0px;
+    display: none;
+    
+    z-index : 1;
+
+}
+
+
+.header .menuBox .subMenuBox .subMenu{
+    padding : 10px; 
+    width: calc(100% - 20px);
+    display : block;
+    text-decoration: none;
+    color : black;
+}
+
+
+.header  .menuBox .menu:hover .subMenuBox{
+    display:block;
+}
+
+@media screen and (max-width: 700px) {
+
+
+    .header{
+        width : calc(100% - 20px);
+        padding : 5px;
+    }
+    
+    .header  .headerRight{
+        display:inline-block;
+        width : calc(50% - 25px);
+        vertical-align: top;
+    }
+    
+    .header  .menuBox{
+        width :100%;
+        display: inline-flex;
+        overflow: auto;
+        padding : 10px 5px;
+    }
+    
+    
+    .header  .menuBox .menu{
+        font-size  : 15px;
+        text-align: center;
+        padding : 10px 5px;
+        display: inline-block;
+
+        flex : none;
+        position : relative;
+    }
+    
+    
+    
+    
+    
+
+    
+    .header .menuMember{
+        vertical-align: top;
+        width : calc(50% - 25px);
+        display: inline-block;
+        text-align: center;
+    }
+    
+    
+    .header .menuBox .subMenuBox{
+        position : fixed;
+        background-color  :azure;
+        text-align: center;
+        border : 1px solid black;
+        top : 50px;
+        left : 0px;
+        display: inline-flex;
+        display: none;
+        z-index : 1;
+    
+    }
+    
+
+    
+    .header .menuBox .subMenuBox .subMenu{
+        padding : 10px; 
+        display : inline-block;
+        width: auto;
+        text-decoration: none;
+        color : black;
+    }
+
+    
+
+
+}

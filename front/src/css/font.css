@@ -1,0 +1,18 @@
+
+
+@font-face {
+    font-family: "Dongle-Regular";
+    src: url("/src/font/Dongle-Regular.ttf") format("truetype"), url("/src/font/Dongle-Regular.woff")
+    format("woff"), url("/src/font/Dongle-Regular.eot?iefix") format("embedded-opentype");
+
+}
+
+
+
+
+@font-face {
+    font-family: "NanumGothicCoding";
+    src: url("/src/font/NanumGothicCoding-Regular.ttf") format("truetype"), url("/src/font/NanumGothicCoding-Regular.woff")
+    format("woff"), url("/src/font/NanumGothicCoding-Regular.eot?iefix") format("embedded-opentype");
+
+}

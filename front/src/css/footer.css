@@ -1,0 +1,15 @@
+.footer {
+
+    background-color: #bcbdcb;
+
+    width : calc(100% - 20px);
+    box-shadow: 1px 1px 1px 1px #0000003b;
+    padding : 10px;
+}
+
+
+
+.footer .footerEmail{
+
+
+}
