@@ -4,13 +4,15 @@
 /upload
 
 
+
 #database
 /config
 /database.json
-/front
+
 
 # dependencies
 /node_modules
+/front
 /.pnp
 .pnp.js
 
